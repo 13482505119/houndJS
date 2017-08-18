@@ -1,0 +1,142 @@
+/**
+ * bootstrap extend style
+ */
+
+.container-condensed {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.row-condensed {
+    margin-left: 0;
+    margin-right: 0;
+}
+.row-condensed > div {
+    padding-left: 0;
+    padding-right: 0;
+}
+.container-condensed-medium {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+.row-condensed-medium {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.row-condensed-medium > div {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.container-widened {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+.row-widened {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+.row-widened > div {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.container-widened-medium {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.row-widened-medium {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.row-widened-medium > div {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.container-moderate {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+.row-moderate {
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.row-moderate > div {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.row-justified {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+}
+.row-justified > .col {
+    float: none;
+    display: table-cell;
+    width: 1%;
+}
+.row-space {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.row-space-half {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.row-space-sesqui {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.row-space-double {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.row-space-triple {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.space {
+    margin-top: 10px;
+}
+.space-half {
+    margin-top: 5px;
+}
+.space-sesqui {
+    margin-top: 15px;
+}
+.space-double {
+    margin-top: 20px;
+}
+.space-triple {
+    margin-top: 30px;
+}
+
+.background-white {
+    background: white;
+}
+.background-white + .background-white {
+    border-top: 1px solid #eeeeee;
+}
+
+.divider-vertical {
+    border-left: 1px solid #eee !important;
+}
+.divider-horizontal {
+    border-top: 1px solid #eee !important;
+}
+.divider-space {
+    height: 10px;
+    background-color: #f9f9f9;
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+a.text-overflow {
+    display: block;
+    width: 100%;
+}
+label.BMapLabel {
+    max-width: none;
+}
