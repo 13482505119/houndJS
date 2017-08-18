@@ -1,0 +1,178 @@
+克隆项目
+git clone git@192.168.2.164:wireless-hybrid.git
+git clone https://github.com/13482505119/hound.git
+
+更新项目
+git pull
+
+克隆(递归)开源项目
+git clone --recursive git://github.com/isaacs/npm.git
+
+新建分支
+git branch (branch-name)
+
+切换分支
+git checkout (branch-name)
+
+合并分支
+git merge (branch-name)
+git push
+
+更新分支
+git pull
+//git pull origin master
+
+添加所有修改[.]
+git add .
+提交分支
+git commit -m "3.7.2"
+上传
+//git push
+//git push origin (branch-name)
+查看分支列表
+git branch -a
+
+@将单个文件恢复到历史版本
+git reset (commit_id) (文件路径)
+git checkout -- (文件路径)
+
+UTF-8
+git config --global gui.encoding utf-8
+
+http://wiki.j1.com/doku.php?id=start
+j1ask / j1pwd123
+
+修改hosts后生效方法
+ipconfig /flushdns
+
+撤销合并
+git status
+git add .
+git status
+git reset HEAD
+git status
+git checkout .
+git clean -df
+git status
+git pull
+
+================================================================
+安装grunt
+npm install -g grunt-cli
+
+进入项目文件夹
+cd [dir]
+npm init
+
+npm install grunt --save-dev
+npm install --save-dev grunt-contrib-concat grunt-contrib-jshint grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-contrib-connect grunt-contrib-requirejs
+
+执行打包任务
+grunt (task)
+	Gruntfile.js 配置
+
+----------------------------------------------------------------
+m站启动命令
+grunt server
+
+
+正式环境打包
+grunt
+tar czvf hybrid.tar.gz dist HYRoute
+
+
+
+	
+================================================================
+安装项目依赖模块
+npm install [xx]
+npm install
+	package.json
+
+npm start
+
+更新模块
+npm update [xx]
+
+================================================================
+node
+      
+
+
+
+================================================================
+调用组件
+npm install -g bower
+bower install
+/bower_components/
+================================================================
+打包上传测试环境
+
+sh publish.165.sh
+密码输 password
+sh publish.168.sh
+
+================================================================
+SPM，发现价值
+
+siteId.pageId.colId.index
+
+<body data-spm="[pageId]">
+
+<div data-spm="[colId]">
+
+<a href="" [index]></a>
+
+
+================================================================
+usage requirejs-css
+
+css.js
+css-builder.js
+normalize.js
+
+require.config({
+	map: {
+	    "*": {
+	        "css": "css"
+	    }
+	}
+})
+
+	module: {
+	    deps: ["css!*.css"]
+	}
+
+
+
+
+
+================================================================
+#fa4532
+#ff7e00
+#ff71a1
+#d58be7
+#3ea3f1
+#fdfad5
+#212630
+#5f6575
+#979ca8
+#dddddd
+#f0eff4
+#f8f8f8
+
+
+
+
+
+
+
+
+48
+36
+34
+30
+28
+24
+20
+

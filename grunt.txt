@@ -1,0 +1,38 @@
+安装 Grunt(Grunt 依赖 Node.js 所以在安装之前确保你安装了 Node.js。然后开始安装 Grunt。)
+npm install -g grunt-cli
+
+Grunt初始化
+npm init
+
+安装 Grunt 和所需要的插件
+npm install grunt --save-dev
+npm install load-grunt-tasks --save-dev
+npm install --save-dev grunt-contrib-concat grunt-contrib-jshint grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-contrib-connect grunt-contrib-requirejs
+npm install --save-dev grunt-contrib-clean grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-htmlmin grunt-contrib-imagemin grunt-include-replace
+
+
+
+
+================================================================
+安装bower
+npm install -g bower
+	
+首先进入项目目录下，新建文件1.txt，内容如下
+{
+	"directory": "bower_components"
+}
+改名(Window CMD)
+rename 1.txt .bowerrc
+
+bower初始化(Window CMD)
+bower init
+
+安装JS插件
+bower install --save jquery jquery-form jquery-validation jquery.cookie
+bower install mustache --save
+bower install requirejs --save
+bower install sweetalert2 --save
+bower install swiper --save
+bower install bootstrap --save
+
+
