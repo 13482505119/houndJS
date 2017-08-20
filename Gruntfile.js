@@ -1,31 +1,14 @@
 /**
  * Created by Administrator on 2017/8/17.
  */
-var fs = require('fs');
+//var fs = require('fs');
 module.exports = function(grunt) {
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
 
-    // Configurable paths
-    var config = {
-        app: 'test',
-        dist: 'dist',
-        path: "**"
-    };
-
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        //sass: {
-        //    output : {
-        //        options: {
-        //            style: sassStyle
-        //        },
-        //        files: {
-        //            './style.css': './scss/style.scss'
-        //        }
-        //    }
-        //},
         clean: {
             dist: {
                 files: [{
@@ -39,9 +22,13 @@ module.exports = function(grunt) {
             },
             server: '.tmp'
         },
+        jshint: {
+            dist: ['src/*.js']
+        },
         concat: {
             options: {
-                separator: ';'
+                separator: ';',
+                stripBanners: true
             },
             dist: {
                 src: [
@@ -55,7 +42,7 @@ module.exports = function(grunt) {
                     'bower_components/requirejs/require.js',
                     'src/hound.js'
                 ],
-                dest: 'dist/vendor.js'
+                dest: 'dist/hound.js'
             }
         },
         uglify: {
@@ -79,49 +66,27 @@ module.exports = function(grunt) {
                 //    ]
                 //}
                 files: [{
-                    expand:	true,
-                    cwd:	'dist',
-                    src:	['*.js','!*.min.js'],
-                    dest:	'dist',
-                    ext:	'.min.js',
-                    extDot:	'last'
-                }]
-            }
-        },
-
-        // Copies remaining files to places other tasks can use
-        copy: {
-            dist: {
-                files: [{
                     expand: true,
-                    dot: true,
-                    cwd: '<%= config.app %>',
-                    dest: '<%= config.dist %>',
-                    src: [
-                        '*.{ico,png,txt,jpg,jpeg,gif}',
-                        '.htaccess',
-                        'images/{,*/}*.webp',
-                        'images/{,*/}*.png',
-                        '<%= config.path%>/{,*/}*.html',
-                        '{scripts,<%= config.path%>}/{,*/}*.js',
-                        '{scripts,<%= config.path%>}/{,*/}*.{ico,png,txt,jpeg,jpg,gif}',
-                        // '**/server/{,*/}*.js',
-                        '{styles,<%= config.path%>}/{,*/}*.css',
-                        'styles/fonts/{,*/}*.*',
-                        '<%= config.path%>/{,*/}*.{png,txt,ico}'
-                        // 'mall/{,*/}*.html',
-                    ]
+                    cwd: 'dist',
+                    src: ['*.js','!*.min.js'],
+                    dest: 'dist',
+                    ext: '.min.js',
+                    extDot: 'last'
                 }]
-            },
-            styles: {
-                expand: true,
-                dot: true,
-                cwd: '<%= config.app %>/',
-                dest: '.tmp/',
-                src: '{scripts,<%= config.path%>}/{,*/}*.css'
             }
         },
 
+        sass: {
+            dist: {
+                options: {
+                    sourcemap: 'true',
+                    style: 'expanded'
+                },
+                files: {
+                    'example/css/style.css': 'example/scss/style.scss'
+                }
+            }
+        },
         cssmin: {
             dist: {
                 files: {
@@ -136,20 +101,54 @@ module.exports = function(grunt) {
                 }
             }
         },
-        jshint: {
-            dist: ['src/*.js']
-        },
+
+        // Copies remaining files to places other tasks can use
+        //copy: {
+        //    dist: {
+        //        files: [{
+        //            expand: true,
+        //            dot: true,
+        //            cwd: '<%= config.app %>',
+        //            dest: '<%= config.dist %>',
+        //            src: [
+        //                '*.{ico,png,txt,jpg,jpeg,gif}',
+        //                '.htaccess',
+        //                'images/{,*/}*.webp',
+        //                'images/{,*/}*.png',
+        //                '<%= config.path%>/{,*/}*.html',
+        //                '{scripts,<%= config.path%>}/{,*/}*.js',
+        //                '{scripts,<%= config.path%>}/{,*/}*.{ico,png,txt,jpeg,jpg,gif}',
+        //                // '**/server/{,*/}*.js',
+        //                '{styles,<%= config.path%>}/{,*/}*.css',
+        //                'styles/fonts/{,*/}*.*',
+        //                '<%= config.path%>/{,*/}*.{png,txt,ico}'
+        //                // 'mall/{,*/}*.html',
+        //            ]
+        //        }]
+        //    },
+        //    styles: {
+        //        expand: true,
+        //        dot: true,
+        //        cwd: '<%= config.app %>/',
+        //        dest: '.tmp/',
+        //        src: '{scripts,<%= config.path%>}/{,*/}*.css'
+        //    }
+        //},
         watch: {
             bower: {
                 files: ['bower.json'],
                 tasks: ['bowerInstall']
             },
             scripts: {
-                files: ['./src/plugin.js','./src/plugin2.js'],
+                files: ['./src/docs.js','./src/hound.js'],
                 tasks: ['concat','jshint','uglify']
             },
+            //sass: {
+            //    files: ['scss/style.scss'],
+            //    tasks: ['sass']
+            //},
             sass: {
-                files: ['./scss/style.scss'],
+                files: ['<%= meta.srcPath %>/**/*.scss'],
                 tasks: ['sass']
             },
             livereload: {
@@ -177,24 +176,24 @@ module.exports = function(grunt) {
                     base: './'
                 }
             }
-        },
+        }
 
         // Run some tasks in parallel to speed up build process
-        concurrent: {
-            server: [
-                // 'sass', :sass
-                'copy:styles'
-            ],
-            test: [
-                'copy:styles'
-            ],
-            dist: [
-                // 'sass', :sass
-                'copy:styles',
-                'imagemin',
-                'svgmin'
-            ]
-        }
+        //concurrent: {
+        //    server: [
+        //        // 'sass', :sass
+        //        'copy:styles'
+        //    ],
+        //    test: [
+        //        'copy:styles'
+        //    ],
+        //    dist: [
+        //        // 'sass', :sass
+        //        'copy:styles',
+        //        'imagemin',
+        //        'svgmin'
+        //    ]
+        //}
     });
 
     grunt.registerTask('serve', function (target) {
@@ -219,14 +218,22 @@ module.exports = function(grunt) {
     // Load the plugin that provides the "uglify" task.
     //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.registerTask('build', [
-        'jshint',
         'clean',
+        'jshint',
         'concat',
-        'cssmin',
-        'uglify'
+        'uglify',
+        'sass',
+        'cssmin'
     ]);
 
-    grunt.registerTask('watchit',['concat','jshint','uglify','connect','watch']);
+    grunt.registerTask('watchit',[
+        'jshint',
+        'concat',
+        'uglify',
+        'cssmin',
+        'connect',
+        'watch'
+    ]);
 
     // Default task(s).
     grunt.registerTask('default');

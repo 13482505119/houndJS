@@ -36,3 +36,8 @@ bower install swiper --save
 bower install bootstrap --save
 
 
+================================================================
+You need to have Ruby and Sass installed and in your PATH for this task to work.
+https://rubyinstaller.org/downloads/
+ÏÂÔØ°²×°Ruby
+gem install sass
