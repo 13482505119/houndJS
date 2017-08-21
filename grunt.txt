@@ -9,8 +9,8 @@ npm install grunt --save-dev
 npm install load-grunt-tasks --save-dev
 npm install --save-dev grunt-contrib-concat grunt-contrib-jshint grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-contrib-connect grunt-contrib-requirejs
 npm install --save-dev grunt-contrib-clean grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-htmlmin grunt-contrib-imagemin grunt-include-replace
-
-
+npm install grunt-autoprefixer --save-dev
+npm install grunt-usemin --save-dev
 
 
 ================================================================

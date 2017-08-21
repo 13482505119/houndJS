@@ -1,7 +1,11 @@
 node_modules
 dist
+example
 .tmp
 bower_components
 .idea
 *.log
 .DS_Store
+test/scss/*.map
+test/scss/*.css
+.sass-cache

@@ -9,12 +9,14 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         clean: {
             dist: {
                 files: [{
                     dot: true,
                     src: [
                         '.tmp',
+                        'example',
                         'dist/*',
                         '!dist/.git*'
                     ]
@@ -22,9 +24,46 @@ module.exports = function(grunt) {
             },
             server: '.tmp'
         },
+
         jshint: {
             dist: ['src/*.js']
         },
+
+        includereplace: {
+            dist: {
+                options: {
+                    prefix: '@@',
+                    suffix: '',
+                    wwwroot: 'example',
+                    globals: {
+                        LOGTYPE: 'node',
+                        DEBUG: 1,
+                        env: 0,
+                        envDevelopment: 0,
+                        BUILD: new Date().getTime(),
+                        HYVersion: '0'
+                    },
+                    includesDir: '',
+                    docroot: '.'
+                },
+                src: 'example/*.html',
+                dest: './'
+                //files: {
+                //    'example/': ['example/**/*.html'],
+                //}
+            }
+        },
+
+        useminPrepare: {
+            html: 'test/index.html',
+            options: {
+                dest: 'example'
+            }
+        },
+        usemin: {
+            html: ['example/{,**/}*.html']
+        },
+
         concat: {
             options: {
                 separator: ';',
@@ -45,6 +84,7 @@ module.exports = function(grunt) {
                 dest: 'dist/hound.js'
             }
         },
+
         uglify: {
             options: {
                 banner: '/*!\n * <%= pkg.name %> v<%= pkg.version %> \n * Created by <%= pkg.author %> on <%= grunt.template.today("yyyy-mm-dd") %>\n */\n',
@@ -79,14 +119,38 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 options: {
-                    sourcemap: 'true',
                     style: 'expanded'
                 },
-                files: {
-                    'example/css/style.css': 'example/scss/style.scss'
-                }
+                //files: {
+                //    'example/css/style.css': 'test/scss/*.scss'
+                //}
+                files: [{
+                    expand: true,
+                    cwd: 'test/scss/',
+                    src: ['*.scss'],
+                    dest: 'example/css/',
+                    ext: '.css'
+                }]
             }
         },
+
+        // Add vendor prefixed styles
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '.tmp/',
+                        src: '**/*.css',
+                        dest: '.tmp/'
+                    }
+                ]
+            }
+        },
+
         cssmin: {
             dist: {
                 files: {
@@ -103,37 +167,24 @@ module.exports = function(grunt) {
         },
 
         // Copies remaining files to places other tasks can use
-        //copy: {
-        //    dist: {
-        //        files: [{
-        //            expand: true,
-        //            dot: true,
-        //            cwd: '<%= config.app %>',
-        //            dest: '<%= config.dist %>',
-        //            src: [
-        //                '*.{ico,png,txt,jpg,jpeg,gif}',
-        //                '.htaccess',
-        //                'images/{,*/}*.webp',
-        //                'images/{,*/}*.png',
-        //                '<%= config.path%>/{,*/}*.html',
-        //                '{scripts,<%= config.path%>}/{,*/}*.js',
-        //                '{scripts,<%= config.path%>}/{,*/}*.{ico,png,txt,jpeg,jpg,gif}',
-        //                // '**/server/{,*/}*.js',
-        //                '{styles,<%= config.path%>}/{,*/}*.css',
-        //                'styles/fonts/{,*/}*.*',
-        //                '<%= config.path%>/{,*/}*.{png,txt,ico}'
-        //                // 'mall/{,*/}*.html',
-        //            ]
-        //        }]
-        //    },
-        //    styles: {
-        //        expand: true,
-        //        dot: true,
-        //        cwd: '<%= config.app %>/',
-        //        dest: '.tmp/',
-        //        src: '{scripts,<%= config.path%>}/{,*/}*.css'
-        //    }
-        //},
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: 'test',
+                    dest: 'example',
+                    src: [
+                        '*.{ico,png,txt,jpg,jpeg,gif}',
+                        '.htaccess',
+                        'images/{,*/}*.webp',
+                        'images/{,*/}*.png',
+                        '**/{,*/}*.html'
+                    ]
+                }]
+            }
+        },
+
         watch: {
             bower: {
                 files: ['bower.json'],
@@ -218,12 +269,15 @@ module.exports = function(grunt) {
     // Load the plugin that provides the "uglify" task.
     //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.registerTask('build', [
-        'clean',
+        'clean:dist',
         'jshint',
         'concat',
         'uglify',
         'sass',
-        'cssmin'
+        'cssmin',
+        'copy',
+        'usemin',
+        'includereplace'
     ]);
 
     grunt.registerTask('watchit',[

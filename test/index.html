@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>介绍--Hound 猎狗前端框架</title>
-    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- build:css(.tmp) /mall/styles/docs.css?build=@@BUILD -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/buttons.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/bootstrap-extend.css" rel="stylesheet">
-    <link href="../bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <link href="css/docs.css" rel="stylesheet">
-    <!-- endbuild -->
-</head>
-<body>
-<div id="header"></div>
+@@include('header.html', {"title": "介绍--Hound 猎狗前端框架"})
 <main class="bs-docs-masthead" id="content" tabindex="-1">
     <div class="container">
         <span class="bs-docs-booticon bs-docs-booticon-lg bs-docs-booticon-outline">H</span>
@@ -39,17 +23,4 @@
         <!--<a href="https://github.com/twbs/bootstrap" class="btn btn-outline btn-lg">查看 GitHub 项目主页</a>-->
     </div>
 </div>
-<div id="footer"></div>
-<script id="hymainjs" data-index="/mall/scripts/hybrid-mall-main.js?build=@@BUILD" data-main="/scripts/hybrid-main?build=@@BUILD.js"></script>
-<!-- build:js /scripts/vendor.js?build=@@BUILD -->
-<script src="../bower_components/mustache.js/mustache.js"></script>
-<script src="../bower_components/swiper/dist/js/swiper.min.js"></script>
-<script src="../bower_components/sweetalert2/dist/sweetalert2.min.js"></script>
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../bower_components/jquery-form/dist/jquery.form.min.js"></script>
-<script src="../bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
-<script data-main="../src/docs" src="../bower_components/requirejs/require.js"></script>
-<!-- endbuild -->
-</body>
-</html>
+@@include('footer.html')
