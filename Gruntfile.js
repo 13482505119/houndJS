@@ -2,6 +2,7 @@
  * Created by Administrator on 2017/8/17.
  */
 var fs = require('fs');
+var url = require('url');
 var spath = require('path');
 var hy = require("./HYRoute/lib/util");
 var hyroute = require("./HYRoute/lib/route");
@@ -70,7 +71,7 @@ module.exports = function(grunt) {
 
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
-            dist: ['src/*.js']
+            dist: ['src/*.js', 'test/js/*.js']
         },
 
         //include & text replace
@@ -196,6 +197,13 @@ module.exports = function(grunt) {
                     dest: 'dist',
                     ext: '.min.js',
                     extDot: 'last'
+                }, {
+                    expand: true,
+                    cwd: 'test/js',
+                    src: ['*.js','!*.min.js'],
+                    dest: 'example/js',
+                    ext: '.js',
+                    extDot: 'last'
                 }]
             }
         },
@@ -262,6 +270,7 @@ module.exports = function(grunt) {
                     src: [
                         '**/*.{ico,png,txt,jpg,jpeg,gif}',
                         '.htaccess',
+                        //'**/*.js',
                         '**/*.html'
                     ]
                 }]
@@ -271,7 +280,7 @@ module.exports = function(grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             scripts: {
-                files: ['./src/docs.js','./src/hound.js'],
+                files: ['test/js/docs.js'],
                 tasks: ['concat', 'jshint', 'uglify']
             },
             sass: {
@@ -310,25 +319,19 @@ module.exports = function(grunt) {
                                 if( !hy.use(req, res, next ) ) return;
                                 var path = hy.HYFormatPath( req.url );
                                 var includeConf = {
-                                    dist: {
-                                        options: {
-                                            prefix: '@@',
-                                            suffix: '',
-                                            wwwroot: 'example',
-                                            globals: {
-                                                LOGTYPE: 'node',
-                                                DEBUG: 1,
-                                                env: 0,
-                                                envDevelopment: 0,
-                                                BUILD: new Date().getTime(),
-                                                HYVersion: '0'
-                                            },
-                                            includesDir: '',
-                                            docroot: '.'
-                                        },
-                                        src: 'example/*.html',
-                                        dest: './'
-                                    }
+                                    prefix: '@@',
+                                    suffix: '',
+                                    wwwroot: 'example',
+                                    globals: {
+                                        LOGTYPE: 'node',
+                                        DEBUG: 1,
+                                        env: 0,
+                                        envDevelopment: 0,
+                                        BUILD: new Date().getTime(),
+                                        HYVersion: '0'
+                                    },
+                                    includesDir: '',
+                                    docroot: '.'
                                 };
                                 var name = spath.extname( req.url );
                                 var time2 = new Date().Format("YYYY-MM-DD hh:mm:ss");
