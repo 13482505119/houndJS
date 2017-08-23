@@ -8,25 +8,8 @@ var hy = require("./HYRoute/lib/util");
 var hyroute = require("./HYRoute/lib/route");
 var dpformat = require("./dputil.js");
 
-Date.prototype.Format = function(fmt) {
-    var o = {
-        "M+": this.getMonth() + 1,// 月份
-        "D+": this.getDate(),// 日
-        "h+": this.getHours(),// 小时
-        "m+": this.getMinutes(),// 分
-        "s+": this.getSeconds(),// 秒
-        "q+": Math.floor((this.getMonth() + 3) / 3),// 季度
-        "S": this.getMilliseconds()
-    };
-    if (/(Y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        }
-    return fmt;
-};
+require("./config/application.js");
+var exampleIRConfig = global.IRConfig.example;
 
 function HYResponseHeader(rep, path, dir, project) {
     var upath = spath.basename(path, '.html');
@@ -75,27 +58,7 @@ module.exports = function(grunt) {
         },
 
         //include & text replace
-        includereplace: {
-            dist: {
-                options: {
-                    prefix: '@@',
-                    suffix: '',
-                    wwwroot: 'example',
-                    globals: {
-                        LOGTYPE: 'node',
-                        DEBUG: 1,
-                        env: 0,
-                        envDevelopment: 0,
-                        BUILD: new Date().getTime(),
-                        HYVersion: '0'
-                    },
-                    includesDir: '',
-                    docroot: '.'
-                },
-                src: 'example/*.html',
-                dest: './'
-            }
-        },
+        includereplace: exampleIRConfig,
 
         // Reads HTML for usemin blocks to enable smart builds that automatically
         // concat, minify and revision files. Creates configurations in memory so
@@ -204,7 +167,28 @@ module.exports = function(grunt) {
                     dest: 'example/js',
                     ext: '.js',
                     extDot: 'last'
-                }]
+                }/*, {
+                    '<%= config.dist %>/scripts/vendor.js': [
+                        '<%= config.dist %>/../bower_components/mustache.js/mustache.js',
+                        '<%= config.dist %>/../bower_components/swiper/dist/js/swiper.min.js',
+                        '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.min.js',
+                        '<%= config.dist %>/../bower_components/jquery/dist/jquery.min.js',
+                        '<%= config.dist %>/../bower_components/jquery-form/dist/jquery.form.min.js',
+                        '<%= config.dist %>/../bower_components/jquery-validation/dist/jquery.validate.min.js',
+                        '<%= config.dist %>/../bower_components/jquery.cookie/jquery.cookie.js',
+                        '<%= config.dist %>/../bower_components/requirejs/require.js'
+                    ],
+                    '<%= config.dist %>/scripts/hybrid-main.js': [
+                        '<%= config.dist %>/hound.js'
+                    ],
+                    '<%= config.dist %>/mall/scripts/hybrid-mall-main.js':[
+                        '<%= config.app %>/js/server/{,*!/}*.js',
+                        '<%= config.app %>/js/scripts/{,*!/}*.js',
+                        '!<%= config.app %>/mall/scripts/testData.js',
+                        '!<%= config.app %>/mall/scripts/adpage.js',
+                        '!<%= config.app %>/mall/scripts/tc.js'
+                    ]
+                }*/]
             }
         },
 
@@ -280,21 +264,19 @@ module.exports = function(grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             scripts: {
-                files: ['test/js/docs.js'],
-                tasks: ['concat', 'jshint', 'uglify']
+                files: ['test/js/*.js'],
+                tasks: ['jshint', 'concat', 'uglify']
             },
             sass: {
                 files: ['test/scss/*.scss'],
-                tasks: ['sass']
+                tasks: ['sass', 'autoprefixer', 'cssmin']
             },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    'index.html',
-                    'style.css',
-                    'js/global.min.js'
+                    'test/**/*.html'
                 ]
             }
         },
@@ -302,121 +284,73 @@ module.exports = function(grunt) {
         // The actual grunt server settings
         connect: {
             options: {
-                port: 9000,
-                open: true,
-                livereload: 35729,
+                port: 9008,//9008
+                open: false,
+                livereload: 35728,//35729
                 // Change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: '*'
             },
             livereload: {
                 options: {
                     middleware: function(connect) {
                         return [
                             connect().use('/.tmp', serveStatic('./.tmp')),
+                            connect().use('/src', serveStatic('./src')),
                             connect().use(hyroute),
                             connect().use('/bower_components', serveStatic('./bower_components')),
                             function(req, res, next) {
-                                if( !hy.use(req, res, next ) ) return;
-                                var path = hy.HYFormatPath( req.url );
-                                var includeConf = {
-                                    prefix: '@@',
-                                    suffix: '',
-                                    wwwroot: 'example',
-                                    globals: {
-                                        LOGTYPE: 'node',
-                                        DEBUG: 1,
-                                        env: 0,
-                                        envDevelopment: 0,
-                                        BUILD: new Date().getTime(),
-                                        HYVersion: '0'
-                                    },
-                                    includesDir: '',
-                                    docroot: '.'
-                                };
-                                var name = spath.extname( req.url );
-                                var time2 = new Date().Format("YYYY-MM-DD hh:mm:ss");
-                                if (name.indexOf(".log") != -1) {
-                                    console.log("-------------------------------------");
-                                    var a;
-                                    req.addListener("data", function(postdata) {
-                                        a += postdata;
-                                        var b = qs.parse(a);
-                                        for(var key in b){
-                                            console.log(time2 + "  " + b[key]);
-                                        }
-                                    });
-                                    return res.end();
-                                }
-                                if( name == '.js' ) {
-                                    if( req.url.indexOf('-server.js') == -1 ) {
-                                        console.log( spath.dirname(req.url), spath.basename(req.url), req.url );
-                                        var file = config.app + spath.dirname(req.url) + "/" + spath.basename(req.url);
-                                        console.log(req.url);
-                                        var cont = fs.readFileSync( file );
-                                        return res.end( dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url) ) );
-                                    } else {
-                                        var tmp = spath.basename(req.url).replace('-server.js', '').split('-').join(spath.sep);
+                                if (!hy.use(req, res, next)) return;
+                                var path = hy.HYFormatPath(req.url);
+                                var includeConf = exampleIRConfig.dist.options;
+                                var name = spath.extname(req.url).replace(/\?.*/, '');
 
-                                        var lastIndex = tmp.lastIndexOf( spath.sep );
-                                        var lastName = tmp;
-                                        if( lastIndex != -1 ) {
-                                            lastName = tmp.substr(tmp.lastIndexOf(spath.sep) + 1);
-                                        }
-
-                                        var name = tmp.substr(0, tmp.lastIndexOf(spath.sep)) + "/server/" + lastName + ".js";
-
-                                        var filename = config.app + "/" +name;
-
-                                        var cont = fs.readFileSync( filename );
-                                        return res.end( dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url) ) );
-                                    }
+                                if (name == '.js') {
+                                    var file = config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url).replace(/\?.*/, '');
+                                    var cont = fs.readFileSync(file);
+                                    return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
                                 }
 
+                                if (hy.HYIsStatic(path)) return next();
 
-                                if( hy.HYIsStatic(path) ) return next();
-
-                                var path = hy.HYFormatPath( req.url );
-                                var project = hy.HYGetProject( config.app, path );
-                                if( !hy.HYIsXHR(req) ) {
+                                var project = hy.HYGetProject(config.app, path);
+                                var body, content;
+                                if (!hy.HYIsXHR(req)) {
                                     req.setEncoding('utf8');
-                                    var body = fs.readFileSync( config.app + '/' + path );
-                                    if( body ) body = body.toString();
+                                    body = fs.readFileSync(config.app + '/' + path);
+                                    if (body) body = body.toString();
 
-                                    if( !body ) {
+                                    if (!body) {
                                         return next();
                                     }
 
-                                    var content = dpformat.includereaplace(grunt, includeConf, body, config.app + '/' + path );
+                                    content = dpformat.includereaplace(grunt, includeConf, body, config.app + '/' + path);
 
                                     HYResponseHeader(res, path, config.app, project);
-                                    hy.renderContent( config.app, path, content, function( resContent ) {
+                                    hy.renderContent(config.app, path, content, function(resContent) {
 
-                                        var upath = spath.basename( path, '.html' );
-                                        console.log('info - %s', config.app + project + "/scripts/" +upath+'.js');
-                                        if(fs.existsSync(config.app + project + "/scripts/" +upath+'.js')) {
-                                            var defaultScript = "var defaultScript ='" + project + "/scripts/" + upath + ".js';";
-                                            var mainJs = "<script>var defaultModel = '"+project.replace('/', '')+"-"+upath+"'; "+ defaultScript +"</script>";
-                                            console.log( mainJs );
+                                        var upath = spath.basename(path, '.html');
+                                        console.log('info - %s', config.app + project + "/js/" + upath + '.js');
+                                        if (fs.existsSync(config.app + project + "/js/" + upath + '.js')) {
+                                            //var defaultScript = "var defaultScript ='" + project + "/js/" + upath + ".js';";
+                                            //var mainJs = "<script>var defaultModel = '" + project.replace('/', '') + "-" + upath + "'; " + defaultScript + "</script>";
+                                            var mainJs = '<script>var require = {urlArgs: "build=' + (new Date().getTime()) + '", deps: ["js/' + upath + '"]};</script>';
                                             resContent = resContent.replace("<body>", "<body>" + mainJs);
                                         }
                                         return res.end(resContent);
                                     }, false, url.parse(req.url, true).query, req, res);
 
-                                    return;
-                                }
+                                } else {
+                                    console.log('include - %s', config.app + '/' + url.parse(path).pathname);
+                                    body = fs.readFileSync(config.app + '/' + url.parse(path).pathname).toString();
+                                    content = dpformat.includereaplace(grunt, includeConf, body, config.app + '/' + url.parse(req.url).pathname);
 
-                                if( hy.HYIsXHR(req) ) { // ajax 操作, 加载不包含 body head 的html
-                                    var body = fs.readFileSync( config.app + '/' + url.parse(path).pathname).toString();
-                                    var content = dpformat.includereaplace(grunt, includeConf, body, config.app + '/' + url.parse(req.url).pathname );
-
-                                    HYResponseHeader(res, path, config.app, project); hy.renderContent(config.app, path, content, function(resContent) {
-                                        return res.end( resContent );
+                                    HYResponseHeader(res, path, config.app, project);
+                                    hy.renderContent(config.app, path, content, function(resContent) {
+                                        return res.end(resContent);
                                     }, true, url.parse(req.url, true).query, req, res);
-                                    return;
                                 }
 
-                                return next();
-                            },//indexroute
+                            },
                             serveStatic(config.app)
                         ];
                     }
@@ -432,7 +366,11 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.registerTask('server', function (target) {
+    grunt.registerTask('server', function(target) {
+        if (target === 'dist') {
+            //return grunt.task.run(['build', 'connect:dist:keepalive']);
+        }
+
         grunt.task.run([
             'clean:server',
             'connect:livereload',
@@ -450,7 +388,7 @@ module.exports = function(grunt) {
         'sass',
         'autoprefixer',
         'cssmin',
-        'copy',
+        'copy:dist',
         'usemin',
         'includereplace',
         //'htmlmin',
