@@ -62,6 +62,7 @@ module.exports = function(grunt) {
             //},
             dist: [
                 'scripts/*.js',
+                '!scripts/json2.js',
                 '<%= config.app %>/scripts/*.js',
                 '<%= config.app %>/server/*.js'
             ]
