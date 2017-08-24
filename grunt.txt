@@ -45,4 +45,7 @@ gem install sass
 
 
 ================================================================
+npm install forever -g
+forever start HYRoute/lib/app.js
+forever restart HYRoute/lib/app.js
 18627273472
