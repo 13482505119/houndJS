@@ -45,8 +45,8 @@ function getCookie(key, req) {
 
 // 如果url地址为 / 则直接跳转到 /index.html
 function use(req, res, next) {
-    if (-1 !== req.url.indexOf('/js/utils')) {
-        req.url = "/js/utils.js";
+    if (-1 !== req.url.indexOf('/scripts/main')) {
+        req.url = "/scripts/main.js";
         return true;
     }
     if (req.url == "/") {
