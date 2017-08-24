@@ -43,16 +43,16 @@ function getCookie(key, req) {
     return ret[key] ? ret[key] : false;
 }
 
-// 如果url地址为/mall则直接跳转到/mall/index.html
+// 如果url地址为 / 则直接跳转到 /index.html
 function use(req, res, next) {
-    if (-1 !== req.url.indexOf('/scripts/hybrid-main')) {
-        req.url = "/scripts/hybrid-main.js";
+    if (-1 !== req.url.indexOf('/js/utils')) {
+        req.url = "/js/utils.js";
         return true;
     }
-    if (req.url == "/mall") {
+    if (req.url == "/") {
         res.writeHead(301, {
             'Content-Type': 'text/plain;',
-            'Location': '/mall/index.html'
+            'Location': '/index.html'
         });
         res.end();
         return false;

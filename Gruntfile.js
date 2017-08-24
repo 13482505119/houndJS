@@ -4,21 +4,21 @@
 var fs = require('fs');
 var url = require('url');
 var spath = require('path');
-var hy = require("./HYRoute/lib/util");
-var hyroute = require("./HYRoute/lib/route");
-var dpformat = require("./dputil.js");
+var hy = require('./HYRoute/lib/util');
+var hyroute = require('./HYRoute/lib/route');
+var dpformat = require('./dputil.js');
 
-require("./config/application.js");
+require('./config/application.js');
 var exampleIRConfig = global.IRConfig.example;
 
 function HYResponseHeader(rep, path, dir, project) {
     var upath = spath.basename(path, '.html');
-    if (fs.existsSync(dir + project + "/scripts/" + upath + '.js')) {
-        rep.setHeader('scriptName', project + "/scripts/" + upath + ".js");
+    if (fs.existsSync(dir + project + '/js/' + upath + '.js')) {
+        rep.setHeader('scriptName', project + '/js/' + upath + '.js');
     } else {
         rep.setHeader('scriptName', false);
     }
-    rep.setHeader('hycss', fs.existsSync(dir + project + "/styles/" + upath + '.css'));
+    //rep.setHeader('hycss', fs.existsSync(dir + project + "/css/" + upath + '.css'));
 }
 
 module.exports = function(grunt) {
@@ -140,55 +140,33 @@ module.exports = function(grunt) {
                 preserveComments: 'all' //不删除注释，还可以为 false（删除全部注释），some（保留@preserve @license @cc_on等注释）
             },
             dist: {
-                //files: {
-                //    'dist/hound.min.js': [
-                //        'bower_components/mustache.js/mustache.js',
-                //        'bower_components/swiper/dist/js/swiper.min.js',
-                //        'bower_components/sweetalert2/dist/sweetalert2.min.js',
-                //        'bower_components/jquery/dist/jquery.min.js',
-                //        'bower_components/jquery-form/dist/jquery.form.min.js',
-                //        'bower_components/jquery-validation/dist/jquery.validate.min.js',
-                //        'bower_components/jquery.cookie/jquery.cookie.js',
-                //        'bower_components/requirejs/require.js',
-                //        'src/hound.js'
-                //    ]
-                //}
-                files: [{
-                    expand: true,
-                    cwd: 'dist',
-                    src: ['*.js','!*.min.js'],
-                    dest: 'dist',
-                    ext: '.min.js',
-                    extDot: 'last'
-                }, {
-                    expand: true,
-                    cwd: 'test/js',
-                    src: ['*.js','!*.min.js'],
-                    dest: 'example/js',
-                    ext: '.js',
-                    extDot: 'last'
-                }/*, {
-                    '<%= config.dist %>/scripts/vendor.js': [
-                        '<%= config.dist %>/../bower_components/mustache.js/mustache.js',
-                        '<%= config.dist %>/../bower_components/swiper/dist/js/swiper.min.js',
-                        '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.min.js',
-                        '<%= config.dist %>/../bower_components/jquery/dist/jquery.min.js',
-                        '<%= config.dist %>/../bower_components/jquery-form/dist/jquery.form.min.js',
-                        '<%= config.dist %>/../bower_components/jquery-validation/dist/jquery.validate.min.js',
-                        '<%= config.dist %>/../bower_components/jquery.cookie/jquery.cookie.js',
-                        '<%= config.dist %>/../bower_components/requirejs/require.js'
-                    ],
-                    '<%= config.dist %>/scripts/hybrid-main.js': [
-                        '<%= config.dist %>/hound.js'
-                    ],
-                    '<%= config.dist %>/mall/scripts/hybrid-mall-main.js':[
-                        '<%= config.app %>/js/server/{,*!/}*.js',
-                        '<%= config.app %>/js/scripts/{,*!/}*.js',
-                        '!<%= config.app %>/mall/scripts/testData.js',
-                        '!<%= config.app %>/mall/scripts/adpage.js',
-                        '!<%= config.app %>/mall/scripts/tc.js'
-                    ]
-                }*/]
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'dist',
+                        src: ['*.js','!*.min.js'],
+                        dest: 'dist',
+                        ext: '.min.js',
+                        extDot: 'last'
+                    },
+                    //{
+                    //    expand: true,
+                    //    cwd: 'test/js',
+                    //    src: ['*.js','!*.min.js'],
+                    //    dest: 'example/js',
+                    //    ext: '.js',
+                    //    extDot: 'last'
+                    //},
+                    {
+                        'example/js/utils.js': [
+                            'test/js/utils.js'
+                        ],
+                        'example/js/page.js':[
+                            'test/js/*.js',
+                            '!test/js/utils.js'
+                        ]
+                    }
+                ]
             }
         },
 
@@ -205,6 +183,15 @@ module.exports = function(grunt) {
                     dest: 'example/css/',
                     ext: '.css'
                 }]
+            },
+            server: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: false
+                },
+                files: {
+                    'test/css/*.css': 'test/scss/*.scss'
+                }
             }
         },
 
@@ -269,7 +256,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ['test/scss/*.scss'],
-                tasks: ['sass', 'autoprefixer', 'cssmin']
+                tasks: ['sass:server']//, 'autoprefixer', 'cssmin'
             },
             livereload: {
                 options: {
@@ -303,9 +290,10 @@ module.exports = function(grunt) {
                                 var path = hy.HYFormatPath(req.url);
                                 var includeConf = exampleIRConfig.dist.options;
                                 var name = spath.extname(req.url).replace(/\?.*/, '');
-
+                                //console.log(req.url);
                                 if (name == '.js') {
                                     var file = config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url).replace(/\?.*/, '');
+                                    console.log(config.app, spath.dirname(req.url), spath.basename(req.url).replace(/\?.*/, ''));
                                     var cont = fs.readFileSync(file);
                                     return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
                                 }
@@ -331,9 +319,9 @@ module.exports = function(grunt) {
                                         var upath = spath.basename(path, '.html');
                                         console.log('info - %s', config.app + project + "/js/" + upath + '.js');
                                         if (fs.existsSync(config.app + project + "/js/" + upath + '.js')) {
-                                            //var defaultScript = "var defaultScript ='" + project + "/js/" + upath + ".js';";
-                                            //var mainJs = "<script>var defaultModel = '" + project.replace('/', '') + "-" + upath + "'; " + defaultScript + "</script>";
-                                            var mainJs = '<script>var require = {urlArgs: "build=' + (new Date().getTime()) + '", deps: ["js/' + upath + '"]};</script>';
+                                            //var mainJs = '<script>var require = {urlArgs: "build=' + (new Date().getTime()) + '", deps: ["js/' + upath + '"]};</script>';
+                                            var defaultScript = "var defaultScript ='" + project + "/js/" + upath + ".js';";
+                                            var mainJs = "<script>var defaultModel = '" + (project ? project.replace('/', '') + "-" : '') + upath + "'; " + defaultScript + "</script>";
                                             resContent = resContent.replace("<body>", "<body>" + mainJs);
                                         }
                                         return res.end(resContent);
@@ -385,7 +373,7 @@ module.exports = function(grunt) {
         'jshint',
         'concat',
         'uglify',
-        'sass',
+        'sass:dist',
         'autoprefixer',
         'cssmin',
         'copy:dist',
