@@ -212,7 +212,7 @@ module.exports = function(grunt) {
                         '<%= config.app %>/styles/buttons.css',
                         '<%= config.app %>/styles/animate.css',
                         '<%= config.app %>/styles/bootstrap-extend.css',
-                        '<%= config.app %>/styles/page.css'
+                        '<%= config.app %>/styles/docs.css'
                     ]
                 }
             }
@@ -295,7 +295,7 @@ module.exports = function(grunt) {
                     middleware: function(connect) {
                         return [
                             connect().use('/.tmp', serveStatic('./.tmp')),
-                            connect().use('/src', serveStatic('./src')),
+                            connect().use('/scripts', serveStatic('./scripts')),
                             connect().use(hyroute),
                             connect().use('/bower_components', serveStatic('./bower_components')),
                             function(req, res, next) {

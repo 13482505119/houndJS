@@ -28,6 +28,7 @@
     "sweetalert2": "^6.6.8",
     "swiper": "^3.4.2",
     "bootstrap": "^3.3.7",
-    "font-awesome": "fontawesome#^4.7.0"
+    "font-awesome": "fontawesome#^4.7.0",
+    "clipboard": "^1.7.1"
   }
 }

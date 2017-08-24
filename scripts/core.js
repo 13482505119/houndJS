@@ -97,7 +97,7 @@ String.prototype.format = function() {
 
 require.config({
     ewaitSeconds: 200,
-    baseUrl: 'js/',
+    baseUrl: 'scripts/',
     paths: {
         main: 'main',
         core: 'core',

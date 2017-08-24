@@ -316,17 +316,9 @@ define("page", [], function() {
                 var pathname = url.replace(/(#|\?).*/, "");
                 var urlpath = Page.getNormalizePath(Page.normalizePath(pathname));
                 var model = Page.getPageScriptName(urlpath);
-                var re = /product\/\d+-\d+/,
-                    activityRe = /customactivity(.+)\.html/;
-                if (re.test(url)) {
-                    bean.pageScriptPath = 'mall-detail';
-                    options.scriptName = '/mall/scripts/detail.js';
-                } else if (activityRe.test(url)) {
-                    bean.pageScriptPath = 'mall-customactivity';
-                    options.scriptName = '/mall/scripts/customactivity.js';
-                } else {
-                    bean.pageScriptPath = options.pageScriptPath || model;
-                }
+
+                bean.pageScriptPath = options.pageScriptPath || model;
+                bean.pageScriptPath = bean.pageScriptPath.replace(/(\w+\-)+/g, '');
 
                 console.log('bean.pageScriptPath is:' + bean.pageScriptPath + ', options.scriptName is:' + options.scriptName);
                 require([options.scriptName], function() {

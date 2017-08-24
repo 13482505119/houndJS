@@ -1,0 +1,24 @@
+@@include('header.html', {"title": "事件处理--Hound 猎狗前端框架"})
+<div class="bs-docs-header" id="content" tabindex="-1">
+    <div class="container">
+        <h1>事件处理</h1>
+        <p>集成很多常用的点击事件处理，及其他很多实用的功能。</p>
+    </div>
+</div>
+<div class="container bs-docs-container">
+
+    <div class="row">
+        <div class="col-md-9" role="main">
+            <div class="bs-docs-section">
+                <h1 id="overview" class="page-header">概览</h1>
+                <p class="lead">集成很多常用的点击事件处理，及其他很多实用的功能。</p>
+
+                <h2 id="overview-doctype">data 属性</h2>
+                <p>你可以仅仅通过 data 属性就能使用的 Hound 事件处理功能，无需写一行 JavaScript 代码。</p>
+                <p>话又说回来，在某些情况下可能需要将此功能关闭。因此，我们还提供了关闭 data 属性 API 的方法，即解除以 data-api 为命名空间并绑定在文档上的事件。就像下面这样：</p>
+<pre><code class="html">&lt;button data-click=&quot;redirect&quot; data-url=&quot;/index.html&quot;&gt;返回首页&lt;/button&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+@@include('footer.html')

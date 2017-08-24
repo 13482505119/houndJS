@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>DPR - m.taobao.com</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+    <script>
+        !function(win, lib) {
+            var timeout,
+                    doc = win.document,
+                    docEl = doc.documentElement,
+                    metaViewport = doc.querySelector('meta[name="viewport"]'),
+                    metaFlexible = doc.querySelector('meta[name="flexible"]'),
+                    dpr = 0,
+                    scale = 0,
+                    flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaViewport) {
+                console.warn("将根据已有的meta标签来设置缩放比例");
+                var match = metaViewport.getAttribute("content").match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else {
+                if (metaFlexible) {
+                    var content = metaFlexible.getAttribute("content");
+                    if (content) {
+                        var initialDpr = content.match(/initial\-dpr=([\d\.]+)/),
+                                maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                        if (initialDpr) {
+                            dpr = parseFloat(initialDpr[1]);
+                            scale = parseFloat((1 / dpr).toFixed(2));
+                        }
+                        if (maximumDpr) {
+                            dpr = parseFloat(maximumDpr[1]);
+                            scale = parseFloat((1 / dpr).toFixed(2));
+                        }
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var ua = win.navigator.userAgent,
+                        isMobile =  !!ua.match(/android/gi) || !!ua.match(/iphone/gi),
+                        isIOS9 = isMobile && !! ua.match(/OS 9_3/),
+                        devicePixelRatio = win.devicePixelRatio;
+
+                dpr = isMobile && !isIOS9 ? (devicePixelRatio >= 3 && (!dpr || dpr >= 3) ? 3 : (devicePixelRatio >= 2 && (!dpr || dpr >= 2) ? 2 : 1)) : 1;
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute("data-dpr", dpr);
+            if (!metaViewport) {
+                metaViewport = doc.createElement("meta");
+                metaViewport.setAttribute("name", "viewport");
+                metaViewport.setAttribute("content", "initial-scale=" + scale + ", maximum-scale=" + scale + ", minimum-scale=" + scale + ", user-scalable=no");
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaViewport)
+                } else {
+                    var wrap = doc.createElement("div");
+                    wrap.appendChild(metaViewport);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem() {
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                var remWidth = width / 10;
+                docEl.style.fontSize = remWidth + "px";
+                flexible.rem = win.rem = remWidth;
+            }
+
+            win.addEventListener("resize", function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener("pageshow", function(e) {
+                if (e.persisted) {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            if ("complete" === doc.readyState) {
+                doc.body.style.fontSize = 12 * dpr + "px";
+            } else {
+                doc.addEventListener("DOMContentLoaded", function() {
+                    doc.body.style.fontSize = 12 * dpr + "px";
+                }, false)
+            }
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function(d) {
+                var val = parseFloat(d) * this.rem;
+                if ("string" == typeof d && d.match(/rem$/)) {
+                    val += "px";
+                }
+                return val;
+            };
+            flexible.px2rem = function(d) {
+                var val = parseFloat(d) / this.rem;
+                if ("string" == typeof d && d.match(/px$/)) {
+                    val += "rem";
+                }
+                return val;
+            }
+
+        }(window, window.lib || (window.lib = {}));
+    </script>
+    <style>
+        p {
+            margin: 0.5em 0;
+            font-size: 1.5em;
+        }
+        input,
+        button {
+            font-size: 1em;
+        }
+        input {
+            padding: 0 0.1rem;
+        }
+        #remp {
+            width: 11em;
+        }
+        #emp {
+            width: 11em;
+        }
+        #px {
+            width: 5em;
+        }
+        table {
+            width: 100%;
+        }
+        th {
+            border-top: 2px solid grey;
+            border-bottom: 1px solid grey;
+        }
+        td {
+            border-bottom: 1px solid grey;
+            padding: 0.25em;
+        }
+        th ~ th,
+        td ~ td {
+            border-left: 1px solid grey;
+        }
+    </style>
+</head>
+<body>
+<a href="http://m.taobao.com"><img src="data:image/jpg;base64,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"></a>
+<p>
+    1rem = <span id="rem"></span> (html.fontSize)<br>
+    1em = <span id="em"></span> (body.fontSize)
+</p>
+<p>
+    <button type="button" class="btn" data-clipboard-action="copy" data-clipboard-target="#remp">COPY</button><input type="text" value="" id="remp">rem<br>
+</p>
+<p>
+    <button type="button" class="btn" data-clipboard-action="copy" data-clipboard-target="#emp">COPY</button><input type="text" value="" id="emp">em<br>
+</p>
+<p>
+    <button type="button" class="btn" data-clipboard-action="copy" data-clipboard-target="#px">COPY</button><input type="text" value="" id="px">px<br>
+</p>
+<p>
+    <button type="button" id="clean">CLEAN</button>
+    <button type="button" id="add">Add Common</button>
+</p>
+<table id="common">
+    <thead>
+    <tr>
+        <th>rem</th>
+        <th>em</th>
+        <th>px</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script src="../bower_components/clipboard/dist/clipboard.js"></script>
+<script>
+    var rem = parseFloat(document.documentElement.style.fontSize);
+    var em = parseInt(document.documentElement.getAttribute("data-dpr")) * 12;
+    var remp = document.getElementById("remp");
+    var emp = document.getElementById("emp");
+    var px = document.getElementById("px");
+
+    document.getElementById("rem").innerText = rem + "px";
+    document.getElementById("em").innerText = em + "px";
+
+    remp.onkeyup = function () {
+        var value = this.value * rem;
+        var strValue = value.toString();
+        var dotIndex = strValue.indexOf(".");
+
+        value = strValue.substr(dotIndex + 1).length > 4 ? parseFloat(value.toFixed(4)) : value;
+
+        px.value = value;
+        emp.value = getPercent(value, em);
+    };
+    emp.onkeyup = function () {
+        var value = this.value * em;
+        var strValue = value.toString();
+        var dotIndex = strValue.indexOf(".");
+
+        value = strValue.substr(dotIndex + 1).length > 4 ? parseFloat(value.toFixed(4)) : value;
+
+        px.value = value;
+        remp.value = getPercent(value, rem);
+    };
+    px.onkeyup = function () {
+        remp.value = getPercent(this.value, rem);
+        emp.value = getPercent(this.value, em);
+    };
+
+    var clipboard = new Clipboard('.btn');
+
+    document.getElementById("clean").onclick = function () {
+        remp.value = "";
+        emp.value = "";
+        px.value = "";
+    };
+
+    function getPercent(numerator, denominator) {
+        var value = numerator / denominator,
+                strValue = value.toString(),
+                dotIndex = strValue.indexOf(".");
+
+        return strValue.substr(dotIndex + 1).length > 16 ? parseFloat(value.toFixed(16)) : value;
+    }
+</script>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
+<script src="../scripts/json2.js"></script>
+<script>
+    //Use Cookies to record data (need jquery & jquery.cookie & JSON)
+    var $common = $("tbody", "#common"),
+            $remp = $("#remp"),
+            $emp = $("#emp"),
+            $px = $("#px"),
+            commonName = "dpr" + rem + "-" + em,
+            commonValue = JSON.parse($.cookie(commonName) || "{}"),
+            options = {
+                expires: 30,
+                path: '/'
+            };
+
+    buildCommon();
+
+    $("#add").click(function () {
+        var rem = $remp.val(),
+                em = $emp.val(),
+                px = $px.val();
+
+        if (rem > "" && em > "" && px > "") {
+            var item = {},
+                    key = "px" + px;
+            item[key] = [rem, em, px];
+
+            $.extend(commonValue, item);
+            $.cookie(commonName, JSON.stringify(commonValue), options);
+
+            buildCommon();
+        }
+    });
+
+    $common.on("click", ".remove", function () {
+        delete commonValue[$(this).data("item")];
+        $.cookie("common", JSON.stringify(commonValue), options);
+        buildCommon();
+    });
+
+    function buildCommon() {
+        $common.empty();
+        $.each(commonValue, function (i, n) {
+            $common.append('<tr><td><button type="button" class="btn" data-clipboard-text="' + n[0] + '">' + n[0] + '</button></td><td><button type="button" class="btn" data-clipboard-text="' + n[1] + '">' + n[1] + '</button></td><td><button type="button" class="btn" data-clipboard-text="' + n[2] + '">' + n[2] + '</button></td><td><button type="button" class="remove" data-item="' + i + '">Remove</button></td></tr>');
+        });
+    }
+</script>
+<p>&nbsp;</p>
+</body>
+</html>

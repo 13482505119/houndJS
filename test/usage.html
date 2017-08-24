@@ -1,0 +1,64 @@
+@@include('header.html', {"title": "使用方法--Hound 猎狗前端框架"})
+<div class="bs-docs-header" id="content" tabindex="-1">
+    <div class="container">
+        <h1>使用方法</h1>
+        <p>Hound的JS和CSS调用方法，自定义字体使用公共CDN提供。</p>
+    </div>
+</div>
+<div class="container bs-docs-container">
+
+    <div class="row">
+        <div class="col-md-9" role="main">
+            <div class="bs-docs-section">
+                <h1 id="overview" class="page-header">概览</h1>
+                <p class="lead">让 web 开发变得更好、更快、更强壮的最佳实践。</p>
+
+                <h2 id="overview-doctype">HTML5 文档类型</h2>
+                <p>Bootstrap 使用到的某些 HTML 元素和 CSS 属性需要将页面设置为 HTML5 文档类型。在你项目中的每个页面都要参照下面的格式进行设置。</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+  ...
+&lt;/html&gt;</code></pre>
+
+                <h2 id="overview-mobile">移动设备优先</h2>
+                <p>为了确保适当的绘制和触屏缩放，需要在 <code>&lt;head&gt;</code> 之中<strong>添加 viewport 元数据标签</strong>。</p>
+<pre><code class="html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</code></pre>
+                <p>在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 <code>user-scalable=no</code> 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！</p>
+<pre><code class="html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot;&gt;</code></pre>
+
+                <h2 id="overview-normalize">Normalize.css</h2>
+                <p>为了增强跨浏览器表现的一致性，我们使用了 <a href="http://necolas.github.io/normalize.css/" target="_blank">Normalize.css</a>，这是由 <a href="https://twitter.com/necolas" target="_blank">Nicolas Gallagher</a> 和 <a href="https://twitter.com/jon_neal" target="_blank">Jonathan Neal</a> 维护的一个CSS 重置样式库。</p>
+
+                <h2 id="overview-cdn-font">自定义字体《font-awesome》CDN加载地址</h2>
+                <p>使用www.bootcdn.cn提供的CDN服务。</p>
+<pre><code class="html">&lt;link href=&quot;//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</code></pre>
+                <p>使用libs.useso.com提供的CDN服务。</p>
+<pre><code class="html">&lt;link href=&quot;//libs.useso.com/js/font-awesome/4.7.0/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</code></pre>
+
+                <h2 id="overview-development">Hound开发环境加载方式</h2>
+                <p>将示例代码中的“<strong>docs</strong>.css”和“data-main="<strong>main</strong>"”修改成自己的模块名称；使用时可以设置路径方便引用，修改参数强制更新。</p>
+<pre><code class="html">&lt;link href="/src/css/docs.css?v=20160303" rel="stylesheet"&gt;
+&lt;script&gt;
+var require = {
+    baseUrl: "/src/js/",
+    urlArgs: "v=20160303"
+};
+&lt;/script&gt;
+&lt;script data-main="docs" src="/src/js/require.js"&gt;&lt;/script&gt;</code></pre>
+
+                <h2 id="overview-production">Hound测试环境加载方式</h2>
+                <p>使用Node打包，方法是在/src/js/文件夹执行“node r.js -o build.js”，打包后的文件放置在public文件夹。</p>
+<pre><code class="html">&lt;link href="/public/css/docs.css?v=20160303" rel="stylesheet"&gt;
+&lt;script&gt;
+var require = {
+    baseUrl: "/public/js/",
+    urlArgs: "v=20160303"
+};
+&lt;/script&gt;
+&lt;script data-main="docs" src="/public/js/require.js"&gt;&lt;/script&gt;</code></pre>
+
+            </div>
+        </div>
+    </div>
+</div>
+@@include('footer.html')

@@ -35,7 +35,7 @@ bower install sweetalert2 --save
 bower install swiper --save
 bower install bootstrap --save
 bower install fontawesome --save
-
+bower install clipboard --save
 
 ================================================================
 You need to have Ruby and Sass installed and in your PATH for this task to work.
