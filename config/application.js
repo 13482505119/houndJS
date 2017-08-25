@@ -2,6 +2,8 @@
  * Created by Administrator on 2017/8/23.
  */
 
+global.webapi = 'http://localhost:9008/';
+
 //example includereplace config
 var exampleConfig = {
     dist: {
@@ -10,21 +12,16 @@ var exampleConfig = {
             suffix: '',
             wwwroot: 'example',
             globals: {
-                LOGTYPE: 'node',
                 DEBUG: 1,
-                env: 0,
-                envDevelopment: 0,
-                BUILD: new Date().getTime(),
-                HYVersion: '0'
+                BUILD: new Date().getTime()
             },
             includesDir: '',
             docroot: '.'
         },
-        src: 'example/*.html',
+        src: 'example/*.{js,html}',
         dest: './'
     }
 };
-
 
 global.IRConfig = {
     example: exampleConfig
