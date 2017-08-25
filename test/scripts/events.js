@@ -1,4 +1,4 @@
-define('index', [], function() {
+define('events', [], function() {
     return {
         pageIn: function() {
             console.log(document.title);

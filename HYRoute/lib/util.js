@@ -17,7 +17,7 @@ var crypto = require('crypto');
 var logger = log4js.getLogger();
 
 var globalDefine = {};
-var webapi = 'http://localhost:9008/';
+var webapi = 'http://localhost:3001/';
 
 
 function define(name, func) {

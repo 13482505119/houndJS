@@ -46,6 +46,7 @@ module.exports = function(grunt) {
                     dot: true,
                     src: [
                         '.tmp',
+                        'dist',
                         '<%= config.dist %>/*',
                         '!<%= config.dist %>/.git*'
                     ]
@@ -230,7 +231,9 @@ module.exports = function(grunt) {
                         dest: '<%= config.dist %>',
                         src: [
                             '**/*.{ico,png,txt,jpg,jpeg,gif}',
+                            '**/server/*.js',
                             '.htaccess',
+                            '**/*.json',
                             '**/*.html'
                         ]
                     },

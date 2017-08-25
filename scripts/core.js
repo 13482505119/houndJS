@@ -48,15 +48,10 @@ var HYFrameworkDefaultConfig = {
     },
 
     URL = {
-        "h5url": "@@h5url",
-        "webapi": "@@webapi",
-        "payurl": "@@payurl",
-        "nativeApi": "@@nativeApi",
-        "payCheckurl": "@@payCheckurl",
-        "apph5url": "@@apph5url"
+        "webapi": "@@webapi"
     },
-    d_h5url = function(url) {
-        var _url = forUrl(getAPI("h5url")) + (url || "");
+    d_webapi = function(url) {
+        var _url = forUrl(getAPI("webapi")) + (url || "");
         _log.debug(_url);
         return _url;
     },

@@ -1,4 +1,4 @@
-define('index', [], function() {
+define('htmcolor', [], function() {
     return {
         pageIn: function() {
             console.log(document.title);
