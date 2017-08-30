@@ -1,94 +1,10 @@
 var HYFrameworkDefaultConfig = {
-        hybody: '#hymain',
-        anibox: '.page-swap',
-        // 加载内容存放地方
-        module: {
-            'native': 1,
-            'activity': 1,
-            'mall': 1,
-            'index': 1,
-            'health': 1
-        }
-    },
-
-    _swa = function(a) {
-        var undef = "undefined";
-        return a != undef;
-    },
-    page_listener = [],
-    _event_renderListener = function() {
-        for (var i in page_listener) {
-            try {
-                page_listener[i]();
-            } catch (e) {}
-        }
-    },
-    emptyfunc = function() {},
-    _log = {},
-
-    // 获取配置参数，如果cookie里面存在，首先从cookie中获取，否则从配置文件读取
-    getAPI = function(args) {
-        var getCookie = function(cName) {
-            var obj = {},
-                tem = [],
-                cookieArr = document.cookie.split(";");
-            for (var i = 0, len = cookieArr.length; i < len; i++)
-                if (cookieArr[i]) {
-                    tem = cookieArr[i].split("=");
-                    if (!tem || !tem[0] || !tem[1]) continue;
-                    if (tem[0].trim() == "key") continue;
-                    obj[tem[0].trim()] = decodeURIComponent(tem[1].trim());
-                }
-            return obj[cName];
-        };
-
-        var cUrl = getCookie(args);
-
-        return cUrl ? cUrl : URL[args];
+        hybody: '#hymain'
     },
 
     URL = {
         "webapi": "@@webapi"
-    },
-    d_webapi = function(url) {
-        var _url = forUrl(getAPI("webapi")) + (url || "");
-        _log.debug(_url);
-        return _url;
-    },
-    forUrl = function(url) {
-        return url + ((url && url.lastIndexOf("/") == url.length - 1) ? "" : "/");
-    },
-
-    nativeClientInfo = function() {
-        var key = "com.j1.healthcare.patient,com.hy.patient,com.j1.patient".split(","),
-            url = window.location.href;
-
-        for (var name in key) {
-
-            if (-1 !== url.indexOf("package_name=" + key[name])) {
-                return {
-                    packageName: key[name]
-                };
-            }
-        }
-
-        return false;
-    },
-
-    isNativeClient = function() {
-        // return nativeClientInfo() != false;
-        return nativeClientInfo();
-    },
-    click = function() {
-        var re = /AppleWebKit.*Mobile.*/;
-        return re.test(navigator.userAgent) ? 'touchend' : 'click';
-    }();
-String.prototype.format = function() {
-    var args = arguments;
-    return this.replace(/\{(\d+)\}/g, function(m, i) {
-        return args[i];
-    });
-};
+    };
 
 require.config({
     ewaitSeconds: 200,
@@ -96,7 +12,8 @@ require.config({
     paths: {
         main: 'main',
         core: 'core',
-        page: 'page'
+        page: 'page',
+        hound: 'hound'
     }
 });
 
@@ -213,9 +130,6 @@ define("core", ['main', $('#hymainjs').data('index')], function(main, aa) {
         HYFramework.readly();
     } catch (e) {
         document.body.innerHTML = e.stack;
-    }
-    if (isNativeClient()) {
-        HYFramework.iVersion = parseInt(HYFramework.util.getRequest().package_name.split('-')[1].split('.').join(''));
     }
     return HYFramework;
 });

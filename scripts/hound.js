@@ -1,36 +1,15 @@
 /*!
  * Hound v2.0
  * Created by LiuSong on 2017/3/14.
- * requires: jQuery Validation Plugin
+ * requires: jQuery 3+
+ *           jQuery Validation Plugin
  *           jQuery Form Plugin
+ *           jQuery Cookie
+ *           Swiper
  *           SweetAlert
  */
-require.config({
-    paths: {
-        "jquery": "../bower_components/jquery/dist/jquery.min",
-        "swiper": "../bower_components/swiper/dist/js/swiper.min",
-        "sweetAlert": "../bower_components/sweetalert2/dist/sweetalert2.min",
-        "form": "../bower_components/jquery-form/dist/jquery.form.min",
-        "validate": "../bower_components/jquery-validation/dist/jquery.validate.min",
-        "cookie": "../bower_components/jquery.cookie/jquery.cookie"
-    },
-    shim:{
-        "swiper": {
-            deps: ["jquery"],
-            exports: "Swiper"
-        },
-        "form": {
-            deps: ["jquery"],
-            exports: "$"
-        },
-        "validate": {
-            deps: ["jquery"],
-            exports: "$"
-        }
-    }
-});
 
-define("hound", ["swiper", "sweetAlert", "jquery", "form", "validate", "cookie"], function (Swiper, sweetAlert) {
+define("hound", [], function () {
 
     var config = {
             version: "2.0",

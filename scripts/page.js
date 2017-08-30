@@ -85,10 +85,6 @@ define("page", [], function() {
             }];
             if (isShopcartOrMine) return;
             var pathname = window.location.pathname;
-            if (!isNativeClient() && $('.pageTitle').size() && !$('.pageTitle button').size() && !pathname.match(/login.html/)) {
-                oCite.append(oS);
-                $pageTitle.append(oCite);
-            }
             //好福利屏蔽首页
             if (HYFramework.util.getCookie('isHFL') == 1) {
                 aNav = [{

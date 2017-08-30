@@ -1,8 +1,7 @@
 define('form', ['hound'], function(hound) {
     return {
         pageIn: function() {
-            console.log(document.title);
-            console.log(hound);
+            hound.alert(document.title);
         },
         pageOut: function() {
 

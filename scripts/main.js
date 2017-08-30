@@ -122,7 +122,6 @@ define("main", ["page"], function (page) {
                 }
             },
             pageIn: function (url, options) {
-                _event_renderListener();
                 options = options || {};
                 if ($.isPlainObject(url)) {
                     options = url;
