@@ -29,8 +29,8 @@ module.exports = function(grunt) {
 
     // Configurable paths
     var config = {
-        app: 'test',
-        dist: 'example',
+        app: 'app',
+        dist: 'dist',
         path: "**"
     };
 
@@ -46,7 +46,6 @@ module.exports = function(grunt) {
                     dot: true,
                     src: [
                         '.tmp',
-                        'dist',
                         '<%= config.dist %>/*',
                         '!<%= config.dist %>/.git*'
                     ]
@@ -62,10 +61,8 @@ module.exports = function(grunt) {
             //    reporter: require('jshint-stylish')
             //},
             dist: [
-                'scripts/*.js',
-                '!scripts/json2.js',
-                '<%= config.app %>/scripts/*.js',
-                '<%= config.app %>/server/*.js'
+                '<%= config.app %>/**/scripts/*.js',
+                '!<%= config.app %>/scripts/json2.js'
             ]
         },
 
@@ -118,7 +115,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.dist %>',
-                    src: '<%= config.path %>/*.html',
+                    src: '<%= config.path %>/**/*.html',
                     dest: '<%= config.dist %>'
                 }]
             }
@@ -134,24 +131,25 @@ module.exports = function(grunt) {
                 files: [
                     {
                         '<%= config.dist %>/scripts/vendor.js': [
-                            'bower_components/mustache.js/mustache.js',
-                            'bower_components/swiper/dist/js/swiper.min.js',
-                            'bower_components/sweetalert2/dist/sweetalert2.min.js',
-                            'bower_components/jquery/dist/jquery.min.js',
-                            'bower_components/jquery-form/dist/jquery.form.min.js',
-                            'bower_components/jquery-validation/dist/jquery.validate.min.js',
-                            'bower_components/jquery.cookie/jquery.cookie.js',
-                            'bower_components/requirejs/require.js'
+                            '<%= config.dist %>/../bower_components/mustache.js/mustache.js',
+                            '<%= config.dist %>/../bower_components/swiper/dist/js/swiper.min.js',
+                            '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.min.js',
+                            '<%= config.dist %>/../bower_components/jquery/dist/jquery.min.js',
+                            '<%= config.dist %>/../bower_components/jquery-form/dist/jquery.form.min.js',
+                            '<%= config.dist %>/../bower_components/jquery-validation/dist/jquery.validate.min.js',
+                            '<%= config.dist %>/../bower_components/jquery.cookie/jquery.cookie.js',
+                            '<%= config.dist %>/../bower_components/requirejs/require.js'
                         ],
-                        '<%= config.dist %>/scripts/main.js': [
-                            'scripts/hound.js',
-                            'scripts/page.js',
-                            'scripts/main.js',
-                            'scripts/core.js',
-                            'scripts/utils.js'
+                        '<%= config.dist %>/scripts/hybrid-main.js': [
+                            '<%= config.dist %>/scripts/core/page.js',
+                            '<%= config.dist %>/scripts/core/main.js',
+                            '<%= config.dist %>/scripts/core/core.js',
+                            '<%= config.dist %>/scripts/core/hound.js',
+                            '<%= config.dist %>/scripts/core/utils.js'
                         ],
-                        '<%= config.dist %>/scripts/page.js':[
-                            'test/scripts/*.js'
+                        '<%= config.dist %>/example/scripts/hybrid-example-main.js':[
+                            '<%= config.dist %>/example/server/*.js',
+                            '<%= config.dist %>/example/scripts/*.js'
                         ]
                     }
                 ]
@@ -166,9 +164,9 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= config.app %>/scss/',
+                    cwd: '<%= config.app %>/**/scss/',
                     src: ['*.scss'],
-                    dest: '<%= config.app %>/styles/',
+                    dest: '<%= config.app %>/**/styles/',
                     ext: '.css'
                 }]
             }
@@ -183,9 +181,9 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= config.dist %>/',
+                        cwd: '<%= config.app %>/',
                         src: '**/*.css',
-                        dest: '<%= config.dist %>/'
+                        dest: '<%= config.app %>/'
                     }
                 ]
             },
@@ -207,14 +205,16 @@ module.exports = function(grunt) {
         cssmin: {
             dist: {
                 files: {
-                    '<%= config.dist %>/styles/page.css': [
-                        'bower_components/bootstrap/dist/css/bootstrap.css',
-                        'bower_components/font-awesome/css/font-awesome.css',
-                        'bower_components/sweetalert2/dist/sweetalert2.css',
-                        '<%= config.app %>/styles/buttons.css',
-                        '<%= config.app %>/styles/animate.css',
-                        '<%= config.app %>/styles/bootstrap-extend.css',
-                        '<%= config.app %>/styles/docs.css'
+                    '<%= config.dist %>/styles/hybrid-main.css': [
+                        '<%= config.dist %>/../bower_components/bootstrap/dist/css/bootstrap.css',
+                        '<%= config.dist %>/../bower_components/font-awesome/css/font-awesome.css',
+                        '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.css',
+                        '<%= config.dist %>/styles/buttons.css',
+                        '<%= config.dist %>/styles/animate.css',
+                        '<%= config.dist %>/styles/bootstrap-extend.css'
+                    ],
+                    '<%= config.dist %>/example/styles/example-main.css': [
+                        '<%= config.dist %>/example/styles/*.css'
                     ]
                 }
             }
@@ -230,11 +230,9 @@ module.exports = function(grunt) {
                         cwd: '<%= config.app %>',
                         dest: '<%= config.dist %>',
                         src: [
+                            '**/*.{html,js,css,json}',
                             '**/*.{ico,png,txt,jpg,jpeg,gif}',
-                            '**/server/*.js',
-                            '.htaccess',
-                            '**/*.json',
-                            '**/*.html'
+                            '.htaccess'
                         ]
                     },
                     {
@@ -253,34 +251,33 @@ module.exports = function(grunt) {
                 dot: true,
                 cwd: '<%= config.app %>/',
                 dest: '.tmp/',
-                src: 'styles/*.css'
+                src: '**/styles/*.css'
             }
         },
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             scripts: {
-                files: ['<%= config.app %>/scripts/*.js', 'scripts/*.js'],
+                files: ['<%= config.app %>/**/scripts/*.js'],
                 tasks: ['jshint'],
                 options: {
                     livereload: true
                 }
             },
             sass: {
-                files: ['<%= config.app %>/scss/*.scss'],
-                tasks: ['sass:server', 'autoprefixer']
+                files: ['<%= config.app %>/**/scss/*.scss'],
+                tasks: ['sass', 'autoprefixer']
             },
             styles: {
-                files: ['<%= config.app %>/css/*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
+                files: ['<%= config.app %>/**/css/*.css'],
+                tasks: ['autoprefixer']
             },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= config.app %>/**/*.html',
-                    '.tmp/styles/**/{,*/}*.css'
+                    '<%= config.app %>/**/*.html'
                 ]
             }
         },
@@ -290,7 +287,7 @@ module.exports = function(grunt) {
             options: {
                 port: 9008,//9000
                 open: false,
-                livereload: 35728,//35729
+                livereload: 35729,
                 // Change this to '0.0.0.0' to access the server from outside
                 hostname: '*'
             },
@@ -299,7 +296,6 @@ module.exports = function(grunt) {
                     middleware: function(connect) {
                         return [
                             connect().use('/.tmp', serveStatic('./.tmp')),
-                            connect().use('/scripts', serveStatic('./scripts')),
                             connect().use(hyroute),
                             connect().use('/bower_components', serveStatic('./bower_components')),
                             function(req, res, next) {
@@ -309,10 +305,27 @@ module.exports = function(grunt) {
                                 var name = spath.extname(req.url).replace(/\?.*/, '');
                                 //console.log(req.url);
                                 if (name == '.js') {
-                                    var file = config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url).replace(/\?.*/, '');
-                                    console.log(config.app, spath.dirname(req.url), spath.basename(req.url).replace(/\?.*/, ''));
-                                    var cont = fs.readFileSync(file);
-                                    return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
+                                    if( req.url.indexOf('-server.js') == -1 ) {
+                                        var file = config.app + spath.dirname(req.url) + "/" + spath.basename(req.url).replace(/\?.*/, '');
+                                        console.log(config.app, spath.dirname(req.url), spath.basename(req.url).replace(/\?.*/, ''));
+                                        var cont = fs.readFileSync(file);
+                                        return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
+                                    } else {
+                                        var tmp = spath.basename(req.url).replace('-server.js', '').split('-').join(spath.sep);
+
+                                        var lastIndex = tmp.lastIndexOf(spath.sep);
+                                        var lastName = tmp;
+                                        if (lastIndex != -1) {
+                                            lastName = tmp.substr(tmp.lastIndexOf(spath.sep) + 1);
+                                        }
+
+                                        var name = tmp.substr(0, tmp.lastIndexOf(spath.sep)) + "/server/" + lastName + ".js";
+
+                                        var filename = config.app + "/" + name;
+
+                                        var cont = fs.readFileSync(filename);
+                                        return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
+                                    }
                                 }
 
                                 if (hy.HYIsStatic(path)) return next();
@@ -336,9 +349,9 @@ module.exports = function(grunt) {
                                         var upath = spath.basename(path, '.html');
                                         console.log('info - %s', config.app + project + "/scripts/" + upath + '.js');
                                         if (fs.existsSync(config.app + project + "/scripts/" + upath + '.js')) {
-                                            //var mainJs = '<script>var require = {urlArgs: "build=' + (new Date().getTime()) + '", deps: ["scripts/' + upath + '"]};</script>';
                                             var defaultScript = "var defaultScript ='" + project + "/scripts/" + upath + ".js';";
-                                            var mainJs = "<script>var defaultModel = '" + (project ? project.replace('/', '') + "-" : '') + upath + "'; " + defaultScript + "</script>";
+                                            var mainJs = "<script>var defaultModel = '" + project.replace('/', '') + "-" + upath + "'; " + defaultScript + "</script>";
+                                            console.log(mainJs);
                                             resContent = resContent.replace("<body>", "<body>" + mainJs);
                                         }
                                         return res.end(resContent);
@@ -403,12 +416,13 @@ module.exports = function(grunt) {
     //build
     grunt.registerTask('build', [
         'clean:dist',
-        'jshint',
-        'uglify',
         'sass:dist',
+        'jshint',
+        'copy:dist',
         'autoprefixer:dist',
         'cssmin',
-        'copy:dist',
+        'uglify',
+        'useminPrepare',
         'usemin',
         'includereplace',
         //'htmlmin',

@@ -13,7 +13,7 @@ require.config({
         main: 'main',
         core: 'core',
         page: 'page',
-        hound: 'hound'
+        hound: '../hound'
     }
 });
 

@@ -19,7 +19,7 @@ var exampleConfig = {
             includesDir: '',
             docroot: '.'
         },
-        src: 'example/*.{js,html}',
+        src: '<%= config.dist %>/**/*.{js,html}',
         dest: './'
     }
 };
