@@ -8,7 +8,7 @@ var qs = require("querystring");
 var log4js = require('log4js');
 var logger = log4js.getLogger();
 var app = express();
-var wwwroot = 'example';
+var wwwroot = 'dist';
 
 var configFile = spath.join(process.cwd(), "config/application.js");
 if (fs.existsSync(configFile)) {
@@ -29,17 +29,17 @@ app.use(function(req, res, next) {
     return next();
 });
 
-app.use(function(req, res, next) {
-    if ("/" != req.url) {
-        return next();
-    }
-
-    var platform = /(iPhone|iPod|iPad|Android)/i.test(req.headers['user-agent']);
-    res.writeHead(301, {
-        "Location": "/www/" + (platform ? "welcome_app.html" : "welcome_pc.html")
-    });
-    res.end();
-});
+//app.use(function(req, res, next) {
+//    if ("/" != req.url) {
+//        return next();
+//    }
+//
+//    var platform = /(iPhone|iPod|iPad|Android)/i.test(req.headers['user-agent']);
+//    res.writeHead(301, {
+//        "Location": "/www/" + (platform ? "welcome_app.html" : "welcome_pc.html")
+//    });
+//    res.end();
+//});
 app.use(function(req, res, next) {
     if (req.url.indexOf('/install') == -1) {
         return next();
@@ -48,26 +48,26 @@ app.use(function(req, res, next) {
     var userAgent = req.headers['user-agent'];
     var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit/i.test(userAgent);
     var isAndroid = userAgent.toLowerCase().indexOf("android") > -1;
-    if (UIWebView || isAndroid) {
-        if (isAndroid) {
-            if (-1 != req.url.indexOf('myapp')) {
-                res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.j1.healthcare.patient');
-                return;
-            }
-            if (-1 != req.url.indexOf('doctor')) {
-                res.redirect('/download/android-doctor-last.apk');
-            } else {
-                res.redirect('/download/android-patient.apk');
-            }
-        } else {
-            // res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=291586600&amp;mt=8');
-            res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=910027998&amp;mt=8');
-        }
-        return;
-    } else {
-        res.redirect('/download/android-patient.apk');
-        return;
-    }
+    //if (UIWebView || isAndroid) {
+    //    if (isAndroid) {
+    //        if (-1 != req.url.indexOf('myapp')) {
+    //            res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.j1.healthcare.patient');
+    //            return;
+    //        }
+    //        if (-1 != req.url.indexOf('doctor')) {
+    //            res.redirect('/download/android-doctor-last.apk');
+    //        } else {
+    //            res.redirect('/download/android-patient.apk');
+    //        }
+    //    } else {
+    //        // res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=291586600&amp;mt=8');
+    //        res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=910027998&amp;mt=8');
+    //    }
+    //    return;
+    //} else {
+    //    res.redirect('/download/android-patient.apk');
+    //    return;
+    //}
 
     return res.redirect('/');
 });
@@ -108,10 +108,6 @@ app.use(function(req, res, next) {
 
         if (body) body = body.toString();
 
-        //if (!body) {
-        //	res.writeHead(301, {"Location": "http://m.j1.com"});
-        //	return res.end();
-        //}
         //logger.info('请求的接口地址为：'+path);
         hy.renderContent(wwwroot, path, body, function(content) {
             if (content === "") {
@@ -124,11 +120,6 @@ app.use(function(req, res, next) {
     if (hy.HYIsXHR(req)) { // ajax 操作, 加载不包含 body head 的html
 
         var body = readFile(wwwroot + '/' + path);
-        //if( !body ) {
-        //	res.writeHead(301, {"Location": "http://m.j1.com"});
-        //	res.end();
-        //	return;
-        //}
         hy.renderContent(wwwroot, path, body, function(content) {
             return res.end(content);
         }, true, url.parse(req.url, true).query, req, res);
@@ -141,4 +132,3 @@ var server = app.listen(global.port || 3001, function() {
     //console.log('Listening on path %s', wwwroot);
     console.log('Listening on port %d', server.address().port);
 });
-// app.listen( global.port || 3002 );

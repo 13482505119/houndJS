@@ -164,9 +164,9 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= config.app %>/**/scss/',
+                    cwd: '<%= config.app %>/example/scss/',
                     src: ['*.scss'],
-                    dest: '<%= config.app %>/**/styles/',
+                    dest: '<%= config.app %>/example/styles/',
                     ext: '.css'
                 }]
             }
@@ -406,8 +406,9 @@ module.exports = function(grunt) {
 
         grunt.task.run([
             'clean:server',
-            'copy:styles',
-            'autoprefixer:server',
+            //'copy:styles',
+            'sass:dist',
+            'autoprefixer:dist',
             'connect:livereload',
             'watch'
         ]);

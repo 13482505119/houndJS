@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>@@title</title>
-    <!-- build:css(dist) styles/page.css?build=@@BUILD -->
+    <!-- build:css(.tmp) /styles/hybrid-main.css?build=@@BUILD -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="styles/buttons.css" rel="stylesheet">
-    <link href="styles/animate.css" rel="stylesheet">
-    <link href="styles/bootstrap-extend.css" rel="stylesheet">
+    <link href="../styles/buttons.css" rel="stylesheet">
+    <link href="../styles/animate.css" rel="stylesheet">
+    <link href="../styles/bootstrap-extend.css" rel="stylesheet">
     <link href="../bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <link href="styles/docs.css" rel="stylesheet">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) /example/styles/example-main.css?build=@@BUILD -->
+    <link href="/example/styles/docs.css" rel="stylesheet">
     <!-- endbuild -->
 </head>
 <body>

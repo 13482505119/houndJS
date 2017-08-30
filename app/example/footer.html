@@ -12,12 +12,12 @@
     </div>
 </footer>
 <script>
-    var require = {
-        urlArgs: "build=@@BUILD"
-    };
+//    var require = {
+//        urlArgs: "build=@@BUILD"
+//    };
 </script>
-<script id="hymainjs" data-index="scripts/page.js?build=@@BUILD" data-main="scripts/main"></script>
-<!-- build:js scripts/vendor.js?build=@@BUILD -->
+<script id="hymainjs" data-index="/example/scripts/hybrid-example-main.js?build=@@BUILD" data-main="/scripts/hybrid-main?build=@@BUILD.js"></script>
+<!-- build:js /scripts/vendor.js?build=@@BUILD -->
 <script src="../bower_components/mustache.js/mustache.js"></script>
 <script src="../bower_components/swiper/dist/js/swiper.min.js"></script>
 <script src="../bower_components/sweetalert2/dist/sweetalert2.min.js"></script>
@@ -28,7 +28,7 @@
 <script src="../bower_components/requirejs/require.js"></script>
 <script src="../scripts/core/main.js"></script>
 <script src="../scripts/core/core.js"></script>
-<script src="../scripts/hound.js"></script>
+<script src="../scripts/core/hound.js"></script>
 <!-- endbuild -->
 </body>
 </html>

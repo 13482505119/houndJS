@@ -8,12 +8,12 @@ var HYFrameworkDefaultConfig = {
 
 require.config({
     ewaitSeconds: 200,
-    baseUrl: 'scripts/',
+    baseUrl: '../scripts/',
     paths: {
-        main: 'main',
-        core: 'core',
-        page: 'page',
-        hound: '../hound'
+        main: '/scripts/core/main',
+        core: '/scripts/core/core',
+        page: '/scripts/core/page',
+        hound: '/scripts/core/hound'
     }
 });
 
