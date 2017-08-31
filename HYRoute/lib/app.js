@@ -40,37 +40,37 @@ app.use(function(req, res, next) {
 //    });
 //    res.end();
 //});
-app.use(function(req, res, next) {
-    if (req.url.indexOf('/install') == -1) {
-        return next();
-    }
-
-    var userAgent = req.headers['user-agent'];
-    var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit/i.test(userAgent);
-    var isAndroid = userAgent.toLowerCase().indexOf("android") > -1;
-    //if (UIWebView || isAndroid) {
-    //    if (isAndroid) {
-    //        if (-1 != req.url.indexOf('myapp')) {
-    //            res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.j1.healthcare.patient');
-    //            return;
-    //        }
-    //        if (-1 != req.url.indexOf('doctor')) {
-    //            res.redirect('/download/android-doctor-last.apk');
-    //        } else {
-    //            res.redirect('/download/android-patient.apk');
-    //        }
-    //    } else {
-    //        // res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=291586600&amp;mt=8');
-    //        res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=910027998&amp;mt=8');
-    //    }
-    //    return;
-    //} else {
-    //    res.redirect('/download/android-patient.apk');
-    //    return;
-    //}
-
-    return res.redirect('/');
-});
+//app.use(function(req, res, next) {
+//    if (req.url.indexOf('/install') == -1) {
+//        return next();
+//    }
+//
+//    var userAgent = req.headers['user-agent'];
+//    var UIWebView = /(iPhone|iPod|iPad).*AppleWebKit/i.test(userAgent);
+//    var isAndroid = userAgent.toLowerCase().indexOf("android") > -1;
+//    if (UIWebView || isAndroid) {
+//        if (isAndroid) {
+//            if (-1 != req.url.indexOf('myapp')) {
+//                res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.j1.healthcare.patient');
+//                return;
+//            }
+//            if (-1 != req.url.indexOf('doctor')) {
+//                res.redirect('/download/android-doctor-last.apk');
+//            } else {
+//                res.redirect('/download/android-patient.apk');
+//            }
+//        } else {
+//            // res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=291586600&amp;mt=8');
+//            res.redirect('https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=910027998&amp;mt=8');
+//        }
+//        return;
+//    } else {
+//        res.redirect('/download/android-patient.apk');
+//        return;
+//    }
+//
+//    return res.redirect('/');
+//});
 
 app.use(route);
 app.use(function(req, res, next) {
@@ -78,24 +78,22 @@ app.use(function(req, res, next) {
 
     var path = hy.HYFormatPath(req.url);
 
-
-
-    if (hy.HYIsStatic(path)) {
-        var name = spath.extname(req.url);
-        if (name.indexOf(".log") != -1) {
-            // logger.debug("-------------------------------------");
-            var a;
-            req.addListener("data", function(postdata) {
-                a += postdata;
-                var b = qs.parse(a);
-                for (var key in b) {
-                    logger.debug(b[key]);
-                }
-            });
-            return res.end();
-        }
-        return next();
-    }
+    //if (hy.HYIsStatic(path)) {
+    //    var name = spath.extname(req.url);
+    //    if (name.indexOf(".log") != -1) {
+    //        // logger.debug("-------------------------------------");
+    //        var a;
+    //        req.addListener("data", function(postdata) {
+    //            a += postdata;
+    //            var b = qs.parse(a);
+    //            for (var key in b) {
+    //                logger.debug(b[key]);
+    //            }
+    //        });
+    //        return res.end();
+    //    }
+    //    return next();
+    //}
     req.setEncoding('utf8');
 
 

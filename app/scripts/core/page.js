@@ -1,7 +1,4 @@
 define("page", [], function() {
-    $.scrollTop = function(pixels) {
-        document.body.scrollTop = pixels;
-    };
     var Page = function() {
         if (this.init) this.init.apply(this, arguments);
     };
@@ -57,61 +54,6 @@ define("page", [], function() {
             require([this.pageScriptPath], function(pageModule) {
                 self.pageScript = pageModule || {};
                 self.loadScript();
-            });
-        },
-        addRightTopNav: function() {
-            var $pageTitle = $('.pageTitle'),
-                oCite = $('<cite>'),
-                oS = $('<s>'),
-                oPanel = $('<div>').addClass('rightNav'),
-                aNoNav = ['shopcart.html', 'mine.html', 'orderInfo.html', 'paychoose.html', 'useCoupon.html', 'checkchoose.html', 'deliverAddressEdit.html', 'coudan.html', 'promote.html', 'sign.html'],
-                isShopcartOrMine = new RegExp(aNoNav.join('|')).test(location.href);
-            aNav = [{
-                type: 'index',
-                href: 'index.html',
-                text: '首页'
-            }, {
-                type: 'cate',
-                href: 'catalog.html',
-                text: '分类'
-            }, {
-                type: 'shopcart',
-                href: 'shopcart.html',
-                text: '购物车'
-            }, {
-                type: 'mine',
-                href: 'mine.html',
-                text: '我的'
-            }];
-            if (isShopcartOrMine) return;
-            var pathname = window.location.pathname;
-            //好福利屏蔽首页
-            if (HYFramework.util.getCookie('isHFL') == 1) {
-                aNav = [{
-                    type: 'cate',
-                    href: 'catalog.html',
-                    text: '分类'
-                }, {
-                    type: 'shopcart',
-                    href: 'shopcart.html',
-                    text: '购物车'
-                }, {
-                    type: 'mine',
-                    href: 'mine.html',
-                    text: '我的'
-                }];
-            }
-            for (var i = 0; i < aNav.length; i++) {
-                var item = aNav[i],
-                    oA = $('<a>').data('type', item.type).attr('href', item.href).text(item.text);
-
-                oPanel.append(oA);
-            }
-            $('#hymain').append(oPanel);
-            $('.pageTitle cite').on('click', function() {
-                var $rightNav = $('.rightNav');
-                if ($rightNav.is('.active')) $rightNav.removeClass('active');
-                else $rightNav.addClass('active');
             });
         },
         loadAnimate: function() {
@@ -253,9 +195,6 @@ define("page", [], function() {
             return pathname.replace('.html', '');
         },
         getModule: function(path) { // 获得项目名
-            var host = window.location.host;
-            if (host == "m.j1.net" || host == "m.j1.com" || host == "api.app.j1.com" || host == "wap.j1.com") return 'mall';
-
             path = path || window.location.pathname;
             var paths = path.split('/');
             var module = 'index';
@@ -303,8 +242,6 @@ define("page", [], function() {
         loadPage: function(options) {
             var url = options.url || location.href,
                 bean = new Page(options);
-            // log.debug("loadinPageScript: " + options.hyjs);
-            // log.debug('scriptName为'+scriptName)
             if (options.hyjs && options.hyjs != "false" && require.defined(options.hyjs) || require.s.contexts._.registry[options.hyjs]) { //&& @@envDevelopment
                 bean.pageScriptPath = options.hyjs;
                 bean.loadPage();

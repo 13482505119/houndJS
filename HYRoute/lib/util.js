@@ -87,16 +87,6 @@ function loadDefine(wwwroot, route) {
     return globalDefine[bkey];
 }
 
-function loadCache(wwwroot) {
-    if (!globalDefine["cache"]) {
-        var dir = spath.resolve(wwwroot + "/scripts/cache.js");
-        // logger.info("cache path:", dir);
-        require(dir);
-        globalDefine["cache"] = globalDefine["cache"]()
-    }
-    return globalDefine["cache"];
-}
-
 function d_request(options, success, failure, number) {
     number = number || 2;
 
@@ -109,11 +99,6 @@ function d_request(options, success, failure, number) {
         logger.error(arguments);
         failure();
     });
-}
-
-function getMark(url) {
-    url = url || "";
-    return url.indexOf("?") == -1 ? "?" : "&";
 }
 
 function isIn(url, str) {
@@ -140,14 +125,6 @@ function toLogin(req, res, loginUrl) {
     return;
 }
 
-function toHlog(req, res, loginUrl) {
-    res.writeHead(301, {
-        'Location': loginUrl
-    });
-    res.end();
-    return;
-}
-
 function renderContent(wwwroot, route, content, callback, isAjax, params, req, dRes) {
     //console.log('html：'+content);
     var md5 = crypto.createHash('md5');
@@ -164,14 +141,12 @@ function renderContent(wwwroot, route, content, callback, isAjax, params, req, d
     var project = route.replace(/^\/\//g, "").replace(/^\//g, "").replace(/\//g, "-").replace(/\..*/, "-server"); // 获得和页面名称一样的服务JS名称
     var bkey = route.replace(/\/\//g, '/').replace(/\//g, "-").replace("-", "").replace(".html", "-server");
 
-    // console.log( dRes._headers['hyjs'] ) ;
     if (!dRes._headers['hyjs']) {
         dRes.setHeader('hyjs', bkey.replace('-server', ""));
     }
 
     var $ = cheerio.load(content);
 
-    //<div id='test' data-content="" data-isLogin="1" data-hytemplate='#hide' data-entry="indexJson.html" data-ajax='indexJson.html?id={id}'></div>
     var render = function(data, next) {
         var cookie = getCookie("token", req);
         var entry = data['entry']; //api 地址
