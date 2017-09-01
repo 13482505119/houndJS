@@ -12,7 +12,7 @@ var exampleConfig = {
             suffix: '',
             wwwroot: 'example',
             globals: {
-                webapi: 'http://localhost:3001/',
+                webapi: global.webapi,
                 DEBUG: 1,
                 BUILD: new Date().getTime()
             },
