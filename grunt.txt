@@ -26,6 +26,7 @@ rename 1.txt .bowerrc
 
 bower初始化(Window CMD)
 bower init
+bower search 包名
 
 安装JS插件
 bower install --save jquery jquery-form jquery-validation jquery.cookie
@@ -36,6 +37,7 @@ bower install swiper --save
 bower install bootstrap --save
 bower install fontawesome --save
 bower install clipboard --save
+bower install iscroll --save
 
 ================================================================
 You need to have Ruby and Sass installed and in your PATH for this task to work.

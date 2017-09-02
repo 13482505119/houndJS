@@ -1,0 +1,25 @@
+@@include('header.html', {"title": "商品列表"})
+<header class="header-list">
+    <form action="list.html" method="get" class="form-search">
+        <div class="form-region">
+            <label>东京 <i class="fa fa-angle-down"></i></label>
+        </div>
+        <div class="input-group">
+            <input type="text" name="key" placeholder="搜索商品">
+            <label class="fa fa-search-minus"></label>
+        </div>
+    </form>
+</header>
+<main>
+    <div id="list" data-hytemplate='#hidetem' data-content="yes" data-cache="false" data-entry="example/success.json"></div>
+
+</main>
+<footer>
+
+</footer>
+<script type='x-tmpl-mustache' id="hidetem">
+    <h1>{{title}}</h1>
+    <p>{{hello}}</p>
+</script>
+
+@@include('footer.html')

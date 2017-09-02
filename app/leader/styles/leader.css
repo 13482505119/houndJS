@@ -1,0 +1,112 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+  background: #f2f2f2;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.25;
+  color: #333;
+}
+
+input {
+  font-size: 0.32rem;
+}
+
+.fa {
+  font-size: 0.4rem;
+}
+
+header,
+footer,
+main {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin: 0 auto;
+  width: 10rem;
+  background: #fff;
+}
+
+header {
+  top: 0;
+}
+header.header-list {
+  height: 2.2933333333rem;
+}
+
+footer {
+  bottom: 0;
+  height: 1.2rem;
+}
+
+main {
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  overflow: hidden;
+  font-size: 0.32rem;
+}
+
+header.header-list + main {
+  top: 2.2933333333rem;
+}
+
+.form-search {
+  display: flex;
+  height: 0.9066666667rem;
+  padding: 0.28rem 0.2666666667rem 0.1466666667rem;
+}
+.form-search .input-group {
+  position: relative;
+  flex: 1;
+}
+.form-search .input-group .fa {
+  position: absolute;
+  top: 14px;
+  left: 10px;
+  font-size: 0.48rem;
+}
+.form-search .input-group input {
+  display: block;
+  padding: 0 0.6933333333rem;
+  border: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+  outline: none;
+  line-height: 0.9066666667rem;
+  box-sizing: border-box;
+}
+
+.form-region {
+  position: relative;
+  margin-right: 0.2rem;
+}
+.form-region label {
+  font-size: 0.3466666667rem;
+  line-height: 0.9066666667rem;
+}
+.form-region label .fa {
+  transition: all 300ms ease-out;
+  color: #999;
+}
+.form-region.active label {
+  color: #ff5000;
+}
+.form-region.active label .fa {
+  color: #ff5000;
+  transform: rotateZ(180deg);
+}

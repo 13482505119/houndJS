@@ -17,7 +17,7 @@ var crypto = require('crypto');
 var logger = log4js.getLogger();
 
 var globalDefine = {};
-var webapi = 'http://localhost:3001/';
+var webapi = global.webapi || "http://localhost:3001/";
 
 
 function define(name, func) {
@@ -106,7 +106,33 @@ function isIn(url, str) {
 }
 
 function replaceWebApi(url) {
-    return webapi;
+    var config = global.hostconfig || {
+            'http://localhost:3001/': [
+                /\/example\//
+            ],
+            'http://127.0.0.1:3001/': [
+                /\/leader\//
+            ]
+        };
+
+    var _webapi = false;
+    for (var host in config) {
+        if (_webapi) break;
+
+        for (var route in config[host]) {
+            if (_webapi) break;
+            var val = config[host][route];
+            var type = typeof(val);
+            if (type == 'function') {
+                _webapi = val(url);
+            } else if (type == 'object') {
+                if (val.test(url)) {
+                    _webapi = host;
+                }
+            }
+        }
+    }
+    return _webapi || webapi;
 }
 
 function toLogin(req, res, loginUrl) {

@@ -1,0 +1,157 @@
+// base parameters
+$fontFamily: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
+$baseFontSize: 75px;
+$baseLineHeight: 1.25;
+$bgColor: #f2f2f2 !default;
+$color: #333 !default;
+$white: #fff;
+$orange: #ff5000;
+$gray: #999;
+$overlayBgColor: rgba(51, 51, 51, 0.5);
+
+// pixels to rems
+@function pxToRem($px) {
+  @return $px / $baseFontSize * 1rem;
+}
+
+// mixin
+@mixin border-radius($size: 5px) {
+  -webkit-border-radius: $size;
+  -moz-border-radius: $size;
+  border-radius: $size;
+}
+
+// container parameters
+$headerListHeight: pxToRem(172px);
+$footerHeight: pxToRem(90px);
+
+
+// region parameters
+$regionLiBgColor: #e4e4e4;
+$regionLiColor: #666;
+$regionLiActiveBgColor: $orange;
+$regionLiActiveColor: $white;
+$regionLiWidth: pxToRem(125px);
+$ragionLiHeight: pxToRem(58px);
+
+// form parameters
+$inputBgColor: $bgColor;
+$inputColor: $color;
+
+// styles
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+html {
+  overflow: hidden;
+}
+body {
+  position: relative;
+  background: #f2f2f2;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-family: $fontFamily;
+  line-height: $baseLineHeight;
+  color: $color;
+}
+input {
+  font-size: pxToRem(24px);
+}
+.fa {
+  font-size: pxToRem(30px);
+}
+header,
+footer,
+main {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin: 0 auto;
+  width: 10rem;
+  background: $white;
+}
+header {
+  top: 0;
+  &.header-list {
+    height: $headerListHeight;
+  }
+}
+footer {
+  bottom: 0;
+  height: $footerHeight;
+}
+main {
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  overflow: hidden;
+  font-size: pxToRem(24px);
+}
+header.header-list + main {
+  top: $headerListHeight;
+}
+
+$formSearchHeight: pxToRem(68px);
+.form-search {
+  display: flex;
+  height: $formSearchHeight;
+  padding: pxToRem(21px) pxToRem(20px) pxToRem(11px);
+
+  .input-group {
+    position: relative;
+    flex: 1;
+    .fa {
+      position: absolute;
+      top: (64 - 36) / 2 * 1px;
+      left: (56 - 36) / 2 * 1px;
+      font-size: pxToRem(36px);
+    }
+    input {
+      display: block;
+      padding: 0 pxToRem(52px);
+      border: 0;
+      width: 100%;
+      background-color: $inputBgColor;
+      outline: none;
+      line-height: $formSearchHeight;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+  }
+}
+.form-region {
+  position: relative;
+  margin-right: pxToRem(15px);
+
+  label {
+    font-size: pxToRem(26px);
+    line-height: $formSearchHeight;
+    .fa {
+      -webkit-transition: all 300ms ease-out;
+      -moz-transition: all 300ms ease-out;
+      transition: all 300ms ease-out;
+      color: $gray;
+    }
+  }
+
+  &.active{
+    label{
+      color: $orange;
+      .fa {
+        color: $orange;
+        -webkit-transform: rotateZ(180deg);
+        -moz-transform: rotateZ(180deg);
+        -o-transform: rotateZ(180deg);
+        -ms-transform: rotateZ(180deg);
+        transform: rotateZ(180deg);
+      }
+    }
+  }
+}

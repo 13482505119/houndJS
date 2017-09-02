@@ -3,9 +3,17 @@
  */
 
 global.webapi = 'http://localhost:3001/';
+global.hostconfig = {
+    'http://localhost:3001/': [
+        /\/example\//
+    ],
+    'http://127.0.0.1:3001/': [
+        /\/leader\//
+    ]
+};
 
 //example includereplace config
-var exampleConfig = {
+var commonConfig = {
     dist: {
         options: {
             prefix: '@@',
@@ -25,5 +33,5 @@ var exampleConfig = {
 };
 
 global.IRConfig = {
-    example: exampleConfig
+    common: commonConfig
 };

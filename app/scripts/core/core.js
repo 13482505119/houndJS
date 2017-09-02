@@ -13,7 +13,9 @@ require.config({
         main: '/scripts/core/main',
         core: '/scripts/core/core',
         page: '/scripts/core/page',
-        hound: '/scripts/core/hound'
+        pullLoad: '/scripts/core/pullLoad',
+        hound: '/scripts/core/hound',
+        utils: '/scripts/core/utils'
     }
 });
 

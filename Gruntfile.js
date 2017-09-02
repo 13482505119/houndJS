@@ -9,7 +9,7 @@ var hyroute = require('./HYRoute/lib/route');
 var dpformat = require('./dputil.js');
 
 require('./config/application.js');
-var exampleIRConfig = global.IRConfig.example;
+var commonIRConfig = global.IRConfig.common;
 
 function HYResponseHeader(rep, path, dir, project) {
     var upath = spath.basename(path, '.html');
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         },
 
         //include & text replace
-        includereplace: exampleIRConfig,
+        includereplace: commonIRConfig,
 
         // Reads HTML for usemin blocks to enable smart builds that automatically
         // concat, minify and revision files. Creates configurations in memory so
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.dist %>',
-                    src: '<%= config.path %>/**/*.html',
+                    src: '**/*.html',
                     dest: '<%= config.dist %>'
                 }]
             }
@@ -134,6 +134,7 @@ module.exports = function(grunt) {
                             '<%= config.dist %>/../bower_components/mustache.js/mustache.js',
                             '<%= config.dist %>/../bower_components/swiper/dist/js/swiper.min.js',
                             '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.min.js',
+                            '<%= config.dist %>/../bower_components/iscroll/build/iscroll-probe.js',
                             '<%= config.dist %>/../bower_components/jquery/dist/jquery.min.js',
                             '<%= config.dist %>/../bower_components/jquery-form/dist/jquery.form.min.js',
                             '<%= config.dist %>/../bower_components/jquery-validation/dist/jquery.validate.min.js',
@@ -144,12 +145,17 @@ module.exports = function(grunt) {
                             '<%= config.dist %>/scripts/core/page.js',
                             '<%= config.dist %>/scripts/core/main.js',
                             '<%= config.dist %>/scripts/core/core.js',
+                            '<%= config.dist %>/scripts/core/pullLoad.js',
                             '<%= config.dist %>/scripts/core/hound.js',
                             '<%= config.dist %>/scripts/core/utils.js'
                         ],
                         '<%= config.dist %>/example/scripts/hybrid-example-main.js':[
                             '<%= config.dist %>/example/server/*.js',
                             '<%= config.dist %>/example/scripts/*.js'
+                        ],
+                        '<%= config.dist %>/leader/scripts/hybrid-leader-main.js':[
+                            '<%= config.dist %>/leader/server/*.js',
+                            '<%= config.dist %>/leader/scripts/*.js'
                         ]
                     }
                 ]
@@ -162,13 +168,22 @@ module.exports = function(grunt) {
                     style: 'expanded',
                     sourcemap: false
                 },
-                files: [{
-                    expand: true,
-                    cwd: '<%= config.app %>/example/scss/',
-                    src: ['*.scss'],
-                    dest: '<%= config.app %>/example/styles/',
-                    ext: '.css'
-                }]
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.app %>/example/scss/',
+                        src: ['*.scss'],
+                        dest: '<%= config.app %>/example/styles/',
+                        ext: '.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= config.app %>/leader/scss/',
+                        src: ['*.scss'],
+                        dest: '<%= config.app %>/leader/styles/',
+                        ext: '.css'
+                    }
+                ]
             }
         },
 
@@ -213,8 +228,18 @@ module.exports = function(grunt) {
                         '<%= config.dist %>/styles/animate.css',
                         '<%= config.dist %>/styles/bootstrap-extend.css'
                     ],
+                    '<%= config.dist %>/styles/hybrid-main-h5.css': [
+                        '<%= config.dist %>/styles/normalize.css',
+                        '<%= config.dist %>/../bower_components/font-awesome/css/font-awesome.css',
+                        '<%= config.dist %>/../bower_components/sweetalert2/dist/sweetalert2.css',
+                        '<%= config.dist %>/styles/buttons.css',
+                        '<%= config.dist %>/styles/animate.css'
+                    ],
                     '<%= config.dist %>/example/styles/example-main.css': [
                         '<%= config.dist %>/example/styles/*.css'
+                    ],
+                    '<%= config.dist %>/leader/styles/leader-main.css': [
+                        '<%= config.dist %>/leader/styles/*.css'
                     ]
                 }
             }
@@ -301,12 +326,15 @@ module.exports = function(grunt) {
                             function(req, res, next) {
                                 if (!hy.use(req, res, next)) return;
                                 var path = hy.HYFormatPath(req.url);
-                                var includeConf = exampleIRConfig.dist.options;
+                                var includeConf = commonIRConfig.dist.options;
                                 var name = spath.extname(req.url).replace(/\?.*/, '');
                                 //console.log(req.url);
                                 if (name == '.js') {
                                     if( req.url.indexOf('-server.js') == -1 ) {
                                         var file = config.app + spath.dirname(req.url) + "/" + spath.basename(req.url).replace(/\?.*/, '');
+                                        if (!/\.js$/i.test(file)) {
+                                            file += '.js';
+                                        }
                                         console.log(config.app, spath.dirname(req.url), spath.basename(req.url).replace(/\?.*/, ''));
                                         var cont = fs.readFileSync(file);
                                         return res.end(dpformat.includereaplace(grunt, includeConf, cont.toString(), config.app + '/' + spath.dirname(req.url) + "/" + spath.basename(req.url)));
