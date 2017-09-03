@@ -2,24 +2,92 @@
 <header class="header-list">
     <form action="list.html" method="get" class="form-search">
         <div class="form-region">
-            <label>东京 <i class="fa fa-angle-down"></i></label>
+            <label>东京<i class="fa fa-angle-down"></i></label>
         </div>
         <div class="input-group">
             <input type="text" name="key" placeholder="搜索商品">
             <label class="fa fa-search-minus"></label>
         </div>
     </form>
+    <nav class="nav-list">
+        <ul class="nav-sort" role="menu">
+            <li>
+                <a href="list.html" class="active">默认</a>
+            </li>
+            <li>
+                <a href="list.html">上新</a>
+            </li>
+            <li>
+                <a href="list.html">销量</a>
+            </li>
+            <li>
+                <a href="list.html">价格</a>
+            </li>
+        </ul>
+        <div class="nav-filter">
+            筛选<i class="fa fa-caret-down"></i>
+        </div>
+    </nav>
 </header>
-<main>
-    <div id="list" data-hytemplate='#hidetem' data-content="yes" data-cache="false" data-entry="example/success.json"></div>
+<main class="has-footer">
+    <div id="list" data-hytemplate='#listBox' data-content="yes" data-cache="false" data-entry="leader/json.json"></div>
 
 </main>
 <footer>
-
+    <nav>
+        <ul class="nav-footer" role="menu">
+            <li>
+                <a href="list.html" class="active">商城首页</a>
+            </li>
+            <li>
+                <a href="list.html">我的订单</a>
+            </li>
+            <li>
+                <a href="list.html">我的收藏</a>
+            </li>
+        </ul>
+    </nav>
 </footer>
-<script type='x-tmpl-mustache' id="hidetem">
-    <h1>{{title}}</h1>
-    <p>{{hello}}</p>
+<script type='x-tmpl-mustache' id="listBox">
+    <div class="pull-wrapper" data-url="leader/jsonp.json">
+        <div class="pull-scroller">
+            <ul class="pull-body">
+                {{#list}}
+                <li>
+                    <a class="thumbnail" href="item.html">
+                        <div class="img-thumbnail">
+                            <img src="{{imageUrl}}" alt="{{goodsName}}">
+                        </div>
+                        <div class="caption">
+                            <h4>{{goodsName}}</h4>
+                            <div class="text-price">
+                                <i class="fa fa-rmb"></i> <span class="yuan">{{price}}.</span>00
+                            </div>
+                            <div class="text-right text-muted"><small>已售{{sold}}　仅剩{{rest}}</small></div>
+                        </div>
+                    </a>
+                </li>
+                {{/list}}
+            </ul>
+        </div>
+    </div>
 </script>
-
+<script type='x-tmpl-mustache' id="listItem">
+    {{#list}}
+    <li>
+        <a class="thumbnail" href="item.html">
+            <div class="img-thumbnail">
+                <img src="{{imageUrl}}" alt="...">
+            </div>
+            <div class="caption">
+                <h4>{{goodsName}}</h4>
+                <div class="text-price">
+                    <i class="fa fa-rmb"></i> <span class="yuan">{{price}}.</span>00
+                </div>
+                <div class="text-right text-muted"><small>已售{{sold}}　仅剩{{rest}}</small></div>
+            </div>
+        </a>
+    </li>
+    {{/list}}
+</script>
 @@include('footer.html')

@@ -5,6 +5,6 @@ bower_components
 .idea
 *.log
 .DS_Store
-**/scss/*.map
+**/*.css.map
 **/scss/*.css
 .sass-cache

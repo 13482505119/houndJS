@@ -163,7 +163,7 @@ function renderContent(wwwroot, route, content, callback, isAjax, params, req, d
     dRes.setHeader('Cache-Control', 'max-age=0');
 
     params = params || {};
-    //console.log('前台url地址为：'+route+'哈哈，找对了');
+
     var project = route.replace(/^\/\//g, "").replace(/^\//g, "").replace(/\//g, "-").replace(/\..*/, "-server"); // 获得和页面名称一样的服务JS名称
     var bkey = route.replace(/\/\//g, '/').replace(/\//g, "-").replace("-", "").replace(".html", "-server");
 
