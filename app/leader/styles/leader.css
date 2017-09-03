@@ -59,6 +59,7 @@ input {
 
 .sold-out {
   position: absolute;
+  z-index: 2;
   left: 0;
   right: 0;
   top: 0;
@@ -68,7 +69,7 @@ input {
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.5);
   text-align: center;
-  font-size: 0.3462rem;
+  font-size: 0.36rem;
   color: #ffffff;
 }
 
@@ -339,6 +340,11 @@ header.header-list + main {
 .thumbnail .img-thumbnail {
   width: 4.64rem;
   height: 4.64rem;
+}
+.img-thumbnail .sold-out {
+  width: 2.32rem;
+  height: 2.32rem;
+  line-height: 2.32rem;
 }
 
 .thumbnail {

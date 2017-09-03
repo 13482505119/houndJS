@@ -57,6 +57,9 @@
                     <a class="thumbnail" href="item.html">
                         <div class="img-thumbnail">
                             <img src="{{imageUrl}}" alt="{{goodsName}}">
+                            {{^stock}}
+                            <span class="sold-out">已售罄</span>
+                            {{/stock}}
                         </div>
                         <div class="caption">
                             <h4>{{goodsName}}</h4>
@@ -77,7 +80,10 @@
     <li>
         <a class="thumbnail" href="item.html">
             <div class="img-thumbnail">
-                <img src="{{imageUrl}}" alt="...">
+                <img src="{{imageUrl}}" alt="{{goodsName}}">
+                {{^stock}}
+                <span class="sold-out">已售罄</span>
+                {{/stock}}
             </div>
             <div class="caption">
                 <h4>{{goodsName}}</h4>

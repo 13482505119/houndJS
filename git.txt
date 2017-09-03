@@ -39,6 +39,9 @@ git checkout -- (文件路径)
 UTF-8
 git config --global gui.encoding utf-8
 
+delete file form staged
+git rm --cached [file]
+
 http://wiki.j1.com/doku.php?id=start
 j1ask / j1pwd123
 
