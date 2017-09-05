@@ -182,8 +182,8 @@ $formSearchHeight: pxToRem(68px);
     flex: 1;
     .fa {
       position: absolute;
-      top: (64 - 32) / 2 * 1px;
-      left: (56 - 32) / 2 * 1px;
+      top: pxToRem(16px);
+      left: pxToRem(12px);
       font-size: pxToRem(32px);
     }
     input {

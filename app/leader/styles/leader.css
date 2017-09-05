@@ -89,7 +89,7 @@ header {
   top: 0;
 }
 header.header-list {
-  height: 2.2933333333rem;
+  height: 2.29333rem;
 }
 
 footer {
@@ -109,7 +109,7 @@ main.has-footer {
 }
 
 header.header-list + main {
-  top: 2.2933333333rem;
+  top: 2.29333rem;
 }
 
 .list-unstyle, .nav-list .nav-sort, .nav-footer, .pull-body {
@@ -120,8 +120,8 @@ header.header-list + main {
 
 .form-search {
   display: flex;
-  height: 0.9066666667rem;
-  padding: 0.28rem 0.2666666667rem 0.1466666667rem;
+  height: 0.90667rem;
+  padding: 0.28rem 0.26667rem 0.14667rem;
 }
 .form-search .input-group {
   position: relative;
@@ -129,32 +129,32 @@ header.header-list + main {
 }
 .form-search .input-group .fa {
   position: absolute;
-  top: 16px;
-  left: 12px;
-  font-size: 0.4266666667rem;
+  top: 0.21333rem;
+  left: 0.16rem;
+  font-size: 0.42667rem;
 }
 .form-search .input-group input {
   display: block;
-  padding: 0 0.6933333333rem;
+  padding: 0 0.69333rem;
   border: 0;
   width: 100%;
   background-color: #f2f2f2;
   outline: none;
-  line-height: 0.9066666667rem;
+  line-height: 0.90667rem;
   box-sizing: border-box;
 }
 
 .form-region {
   position: relative;
-  height: 0.9066666667rem;
+  height: 0.90667rem;
 }
 .form-region label {
-  font-size: 0.3466666667rem;
-  line-height: 0.8266666667rem;
+  font-size: 0.34667rem;
+  line-height: 0.82667rem;
 }
 .form-region label .fa {
   margin: 0 0.8em 0 0.4em;
-  font-size: 0.4266666667rem;
+  font-size: 0.42667rem;
   color: #999;
   transition: all 300ms ease-out;
 }
@@ -168,11 +168,11 @@ header.header-list + main {
 
 .nav-list {
   display: flex;
-  height: 0.9333333333rem;
-  line-height: 0.9333333333rem;
+  height: 0.93333rem;
+  line-height: 0.93333rem;
   border-top: 1px solid transparent;
   border-bottom: 1px solid #e7e7e7;
-  font-size: 0.3466666667rem;
+  font-size: 0.34667rem;
 }
 .nav-list .nav-sort {
   flex: 1;
@@ -238,7 +238,7 @@ header.header-list + main {
   position: absolute;
   z-index: 1;
   width: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   transform: translateZ(0);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -352,15 +352,15 @@ header.header-list + main {
   margin: 0.2rem 0.12rem;
   background-color: #fff;
   box-shadow: 0.0805rem 0.0805rem 0.161rem rgba(4, 0, 0, 0.73);
-  font-size: 0.2666666667rem;
+  font-size: 0.26667rem;
 }
 .thumbnail .caption {
   padding: 0.12rem;
 }
 .thumbnail .caption h4 {
   margin: 0;
-  font-size: 0.2666666667rem;
-  height: 0.6666666667rem;
+  font-size: 0.26667rem;
+  height: 0.66667rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
