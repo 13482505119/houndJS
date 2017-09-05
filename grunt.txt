@@ -4,7 +4,7 @@ npm install -g grunt-cli
 Grunt初始化
 npm init
 
-安装 Grunt 和所需要的插件
+安装 Grunt 和所需要的插件DEV
 npm install grunt --save-dev
 npm install load-grunt-tasks --save-dev
 npm install --save-dev grunt-contrib-concat grunt-contrib-jshint grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-contrib-connect grunt-contrib-requirejs
@@ -12,11 +12,14 @@ npm install --save-dev grunt-contrib-clean grunt-contrib-copy grunt-contrib-cssm
 npm install grunt-autoprefixer --save-dev
 npm install grunt-usemin --save-dev
 
+安装生产环境插件HYRoute
+npm install async --save
+npm install --save cheerio cookie express lodash log4js mustache request s-date
 
 ================================================================
 安装bower
 npm install -g bower
-	
+
 首先进入项目目录下，新建文件1.txt，内容如下
 {
 	"directory": "bower_components"
