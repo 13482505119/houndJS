@@ -1,101 +1,4 @@
-// var fs = require("fs");
 var libpath = require("path");
-// var str = fs.readFileSync("jf.js").toString();
-
-function formatName(wwwroot, path) {
-
-    path = path.replace(wwwroot, "");
-
-    var name = libpath.basename(path).replace(libpath.extname(path), "");
-
-    var paths = path.split("/");
-
-    var project = "";
-    for (var i in paths) {
-        if (paths[i].trim() == "") continue;
-
-        project = paths[i];
-        break;
-    }
-
-    return project + "-" + name;
-}
-
-function formatImport(str) {
-    var regall = /var(.*?)=.*?d_import\(\"(.*?)\"\).*?;/ig;
-    var reg = /var(.*?)=.*?d_import\(\"(.*?)\"\).*?;/i;
-
-    var importStr = str.match(regall);
-    var imp = {},
-        isimport = false;
-    for (var i in importStr) {
-        isimport = true;
-        str = str.replace(importStr[i], "");
-        var tmp = importStr[i].match(reg);
-        var $var = tmp[1].trim();
-        var $val = tmp[2].trim();
-
-        imp[$var] = $val;
-    }
-
-    if (isimport) return {
-        imp: imp,
-        html: str.trim()
-    };
-    return false;
-}
-
-function formatImportContent(name, imports, javascriptString) {
-    if (javascriptString.indexOf("!d_import") != -1) return javascriptString;
-    if (/define\(.*?function.*?/i.test(javascriptString)) return javascriptString;
-
-    var defineTemplate = function() {
-        function template() {
-            /*
-             define('{name}', [{imports}], function({args}) {
-
-             {content}
-
-             return {
-             pageIn: _swa(typeof(pageIn)) ? pageIn : emptyfunc,
-             pageOut: _swa(typeof(pageOut)) ? pageOut : emptyfunc,
-             animateEnd: _swa(typeof(animateEnd)) ? pageOut : emptyfunc
-             };
-             });
-             */
-        };
-
-        var lines = new String(template);
-        return lines.substring(lines.indexOf('/*') + 3, lines.indexOf("*/"));
-    };
-
-    var template = defineTemplate().replace("{name}", name);
-
-    if (imports) {
-        var key = "",
-            val = [];
-        for (var i in imports) key += i + ",";
-        for (var i in imports) val += "'" + imports[i] + "',";
-        template = template.replace("{args}", key.substring(0, key.length - 1));
-        template = template.replace("{imports}", val.substring(0, val.length - 1));
-    } else {
-        template = template.replace("{imports}", "");
-        template = template.replace("{args}", "");
-    }
-
-    return template.replace("{content}", javascriptString);
-}
-
-function formatImp(wwwroot, path, str) {
-    if (libpath.extname(path) != ".js") return str;
-    var ips = formatImport(str);
-    var ip = !ips ? false : ips['imp'];
-    str = !ips ? str : ips['html'];
-    return formatImportContent(formatName(wwwroot, path), ip, str);
-}
-
-
-
 
 function includereaplace(grunt, options, str, src) {
     var globalVars = options.globals;
@@ -227,7 +130,6 @@ function includereaplace(grunt, options, str, src) {
 
     grunt.log.debug('Locals', localVars);
 
-    str = formatImp(options.wwwroot, src, str);
     // Make replacements
     str = replace(str, localVars);
 
@@ -237,5 +139,4 @@ function includereaplace(grunt, options, str, src) {
     return str;
 }
 
-exports.formatImportContent = formatImp;
 exports.includereaplace = includereaplace;
