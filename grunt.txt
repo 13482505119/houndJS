@@ -49,8 +49,14 @@ https://rubyinstaller.org/downloads/
 gem install sass
 
 
+
+================================================================
+npm rebuild node-sass
+
 ================================================================
 npm install forever -g
 forever start HYRoute/lib/app.js
 forever restart HYRoute/lib/app.js
 18627273472
+
+
