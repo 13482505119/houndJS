@@ -9,8 +9,7 @@
     <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
     <script>
         !function(win, lib) {
-            var timeout,
-                    doc = win.document,
+            var doc = win.document,
                     docEl = doc.documentElement,
                     metaViewport = doc.querySelector('meta[name="viewport"]'),
                     metaFlexible = doc.querySelector('meta[name="flexible"]'),
@@ -77,14 +76,10 @@
                 flexible.rem = win.rem = remWidth;
             }
 
-            win.addEventListener("resize", function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(refreshRem, 300);
-            }, false);
+            win.addEventListener("resize", refreshRem, false);
             win.addEventListener("pageshow", function(e) {
                 if (e.persisted) {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(refreshRem, 300);
+                    refreshRem();
                 }
             }, false);
 
@@ -186,7 +181,7 @@
     <tbody>
     </tbody>
 </table>
-<script src="../bower_components/clipboard/dist/clipboard.js"></script>
+<script src="../../bower_components/clipboard/dist/clipboard.js"></script>
 <script>
     var rem = parseFloat(document.documentElement.style.fontSize);
     var em = parseInt(document.documentElement.getAttribute("data-dpr")) * 12;
@@ -239,9 +234,9 @@
     }
 </script>
 
-<script src="../bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
-<script src="../scripts/json2.js"></script>
+<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
+<script src="scripts/json2.js"></script>
 <script>
     //Use Cookies to record data (need jquery & jquery.cookie & JSON)
     var $common = $("tbody", "#common"),
