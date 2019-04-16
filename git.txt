@@ -128,4 +128,21 @@ siteId.pageId.colId.index
 
 
 ================================================================
+#创建开发版本的远程分支
+git branch [branch]
+#将本地开发分支提交到服务器
+git push origin [branch]
+git branch -D [branch]
+git checkout -b [branch]  origin/[branch]
+
+================================================================
+grunt --testing
+tar -zcf upload.tar.gz dist/ HYRoute/
+ssh -t root@192.168.2.165 /root/wireless-hybrid/upload.sh
+# scp -r dist HYRoute root@192.168.2.165:/root/wireless-hybrid
+scp upload.tar.gz root@192.168.2.165:/root/wireless-hybrid
+ssh -t root@192.168.2.165 "cd /root/wireless-hybrid && tar -xf upload.tar.gz && ./restart.sh"
+================================================================
+
+
 
